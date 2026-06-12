@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.travory.app.post.mapper.PostMapper">
+
+    <insert id="insertPost">
+        INSERT INTO posts
+        (
+            user_id,
+            title,
+            content,
+            start_date,
+            end_date,
+            max_people,
+            budget
+        )
+        VALUES
+            (
+                #{userId},
+                #{title},
+                #{content},
+                #{startDate},
+                #{endDate},
+                #{maxPeople},
+                #{budget}
+            )
+    </insert>
+
+    <select id="findAll"
+            resultType="com.travory.app.post.dto.PostDto">
+        SELECT *
+        FROM posts
+        ORDER BY id DESC
+    </select>
+
+    <select id="findById"
+            resultType="com.travory.app.post.dto.PostDto">
+        SELECT *
+        FROM posts
+        WHERE id = #{id}
+    </select>
+
+    <update id="increaseViewCount">
+        UPDATE posts
+        SET view_count = view_count + 1
+        WHERE id = #{id}
+    </update>
+
+</mapper>

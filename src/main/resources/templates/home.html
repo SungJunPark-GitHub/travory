@@ -14,6 +14,9 @@
   <a href="/users/login">로그인</a>
 </div>
 
+<br>
+<a href="/posts">동행 모집 보기</a>
+
 <div th:if="${session.loginUser != null}">
   <p>
     <strong th:text="${session.loginUser.userName}"></strong>님 환영합니다.

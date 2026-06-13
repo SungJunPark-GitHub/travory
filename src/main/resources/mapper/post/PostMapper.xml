@@ -45,6 +45,7 @@
             p.max_people,
             p.budget,
             p.view_count,
+            p.status,
             p.created_at,
             u.user_name
         FROM posts p
@@ -74,6 +75,13 @@
             end_date = #{endDate},
             max_people = #{maxPeople},
             budget = #{budget}
+        WHERE id = #{id}
+          AND user_id = #{userId}
+    </update>
+
+    <update id="updatePostStatus">
+        UPDATE posts
+        SET status = #{status}
         WHERE id = #{id}
           AND user_id = #{userId}
     </update>

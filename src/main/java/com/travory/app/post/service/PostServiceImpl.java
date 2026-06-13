@@ -12,6 +12,9 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
 
+    private static final List<String> POST_STATUSES =
+            List.of("OPEN", "CLOSED", "FINISHED");
+
     private final PostMapper postMapper;
 
     @Override
@@ -38,6 +41,15 @@ public class PostServiceImpl implements PostService {
     @Override
     public void updatePost(PostDto postDto) {
         postMapper.updatePost(postDto);
+    }
+
+    @Override
+    public void updatePostStatus(Long id, Long userId, String status) {
+        if (!POST_STATUSES.contains(status)) {
+            throw new IllegalArgumentException("Invalid post status.");
+        }
+
+        postMapper.updatePostStatus(id, userId, status);
     }
 
     @Override

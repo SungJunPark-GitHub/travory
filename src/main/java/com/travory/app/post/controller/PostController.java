@@ -137,6 +137,28 @@ public class PostController {
         return "redirect:/posts/" + id;
     }
 
+    @PostMapping("/{id}/status")
+    public String updateStatus(@PathVariable Long id,
+                               @RequestParam String status,
+                               HttpSession session) {
+
+        UserDto loginUser = (UserDto) session.getAttribute("loginUser");
+
+        if (loginUser == null) {
+            return "redirect:/users/login";
+        }
+
+        PostDto post = postService.getPostById(id);
+
+        if (!post.getUserId().equals(loginUser.getId())) {
+            return "redirect:/posts/" + id;
+        }
+
+        postService.updatePostStatus(id, loginUser.getId(), status);
+
+        return "redirect:/posts/" + id;
+    }
+
     @PostMapping("/{id}/delete")
     public String delete(@PathVariable Long id,
                          HttpSession session) {

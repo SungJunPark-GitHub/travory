@@ -17,5 +17,7 @@ public interface PostService {
 
     void updatePost(PostDto postDto);
 
+    void updatePostStatus(Long id, Long userId, String status);
+
     void deletePost(Long id);
 }

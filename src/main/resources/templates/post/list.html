@@ -21,6 +21,7 @@
       <th>ID</th>
       <th>제목</th>
       <th>작성자</th>
+      <th>상태</th>
       <th>기간</th>
       <th>모집인원</th>
       <th>조회수</th>
@@ -34,6 +35,11 @@
            th:text="${post.title}"></a>
       </td>
       <td th:text="${post.user_name}"></td>
+      <td>
+        <span th:if="${post.status == 'OPEN'}" class="badge bg-success">모집중</span>
+        <span th:if="${post.status == 'CLOSED'}" class="badge bg-secondary">모집완료</span>
+        <span th:if="${post.status == 'FINISHED'}" class="badge bg-dark">여행종료</span>
+      </td>
       <td>
         <span th:text="${post.start_date}"></span>
         ~

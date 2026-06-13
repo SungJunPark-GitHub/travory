@@ -10,6 +10,12 @@
 <div class="container mt-5">
     <h2 th:text="${post.title}"></h2>
 
+    <div class="mb-3">
+        <span th:if="${post.status == 'OPEN'}" class="badge bg-success">모집중</span>
+        <span th:if="${post.status == 'CLOSED'}" class="badge bg-secondary">모집완료</span>
+        <span th:if="${post.status == 'FINISHED'}" class="badge bg-dark">여행종료</span>
+    </div>
+
     <div class="mb-3 text-muted">
         <span>조회수: </span>
         <span th:text="${post.viewCount}"></span>
@@ -118,6 +124,15 @@
 </div>
 
 <div th:if="${session.loginUser != null and session.loginUser.id == post.userId}">
+    <form th:action="@{/posts/{id}/status(id=${post.id})}" method="post" class="mb-3">
+        <select name="status" class="form-select form-select-sm w-auto d-inline-block">
+            <option value="OPEN" th:selected="${post.status == 'OPEN'}">모집중</option>
+            <option value="CLOSED" th:selected="${post.status == 'CLOSED'}">모집완료</option>
+            <option value="FINISHED" th:selected="${post.status == 'FINISHED'}">여행종료</option>
+        </select>
+        <button type="submit" class="btn btn-sm btn-outline-primary">상태 변경</button>
+    </form>
+
     <a th:href="@{/posts/{id}/edit(id=${post.id})}" class="btn btn-warning">수정</a>
 
     <form th:action="@{/posts/{id}/delete(id=${post.id})}" method="post" style="display:inline;">

@@ -30,6 +30,8 @@ public class PostDto {
 
     private Integer viewCount;
 
+    private String status;
+
     private String isPublic;
 
     private LocalDateTime createdAt;

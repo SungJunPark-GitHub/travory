@@ -1,61 +1,67 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <title>회원가입</title>
-
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
+<head th:replace="~{fragments/layout :: head('회원가입')}"></head>
 <body>
 
-<div class="container mt-5">
+<div th:replace="~{fragments/layout :: navbar}"></div>
 
-  <h2>회원가입</h2>
+<main class="page-shell">
+  <div class="container">
+    <div class="surface-card auth-card p-4 p-md-5">
+      <div class="text-center mb-4">
+        <span class="badge badge-soft mb-3">Create account</span>
+        <h1 class="h3 fw-bold">회원가입</h1>
+        <p class="lead-muted mb-0">여행 스타일이 맞는 사람들과 함께 떠나보세요.</p>
+      </div>
 
-  <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+      <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
 
-  <form action="/users/register" method="post">
+      <form action="/users/register" method="post">
+        <div class="mb-3">
+          <label class="form-label">아이디</label>
+          <input type="text" class="form-control" name="userId">
+        </div>
 
-    <div class="mb-3">
-      <label>아이디</label>
-      <input type="text" class="form-control" name="userId">
+        <div class="mb-3">
+          <label class="form-label">비밀번호</label>
+          <input type="password" class="form-control" name="password">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">이름</label>
+          <input type="text" class="form-control" name="userName">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">성별</label>
+          <select class="form-select" name="gender">
+            <option value="M">남성</option>
+            <option value="F">여성</option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">전화번호</label>
+          <input type="text" class="form-control" name="phoneNumber">
+        </div>
+
+        <div class="mb-4">
+          <label class="form-label">이메일</label>
+          <input type="email" class="form-control" name="email">
+        </div>
+
+        <button class="btn btn-primary btn-lg w-100">회원가입</button>
+      </form>
+
+      <div class="text-center mt-4">
+        <span class="lead-muted">이미 계정이 있나요?</span>
+        <a href="/users/login" class="fw-bold text-decoration-none">로그인</a>
+      </div>
     </div>
+  </div>
+</main>
 
-    <div class="mb-3">
-      <label>비밀번호</label>
-      <input type="password" class="form-control" name="password">
-    </div>
-
-    <div class="mb-3">
-      <label>이름</label>
-      <input type="text" class="form-control" name="userName">
-    </div>
-
-    <div class="mb-3">
-      <label>성별</label>
-      <select class="form-control" name="gender">
-        <option value="M">남성</option>
-        <option value="F">여성</option>
-      </select>
-    </div>
-
-    <div class="mb-3">
-      <label>전화번호</label>
-      <input type="text" class="form-control" name="phoneNumber">
-    </div>
-
-    <div class="mb-3">
-      <label>이메일</label>
-      <input type="email" class="form-control" name="email">
-    </div>
-
-    <button class="btn btn-primary">
-      회원가입
-    </button>
-
-  </form>
-
-</div>
+<div th:replace="~{fragments/layout :: footer}"></div>
 
 </body>
 </html>

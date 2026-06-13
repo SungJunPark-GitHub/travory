@@ -1,29 +1,85 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <title>Travory</title>
-</head>
+<head th:replace="~{fragments/layout :: head('Travory')}"></head>
 <body>
 
-<h1>Travory Home</h1>
+<div th:replace="~{fragments/layout :: navbar}"></div>
 
-<div th:if="${session.loginUser == null}">
-  <a href="/users/register">회원가입</a>
-  <br>
-  <a href="/users/login">로그인</a>
-</div>
+<main class="hero-section">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-7">
+        <div class="hero-panel">
+          <div class="eyebrow mb-3">Travel companion platform</div>
+          <h1 class="display-4 display-title mb-4">함께 떠날 사람을 찾는 가장 쉬운 방법</h1>
+          <p class="lead lead-muted mb-4">
+            Travory에서 여행 일정을 공유하고, 마음이 맞는 동행을 만나고, 북마크로 관심 있는 모집글을 모아보세요.
+          </p>
 
-<br>
-<a href="/posts">동행 모집 보기</a>
+          <div class="d-flex flex-wrap gap-2">
+            <a href="/posts" class="btn btn-primary btn-lg">동행 모집 보기</a>
+            <a th:if="${session.loginUser == null}" href="/users/register" class="btn btn-outline-primary btn-lg">시작하기</a>
+            <a th:if="${session.loginUser != null}" href="/posts/create" class="btn btn-outline-primary btn-lg">모집글 작성</a>
+          </div>
+        </div>
+      </div>
 
-<div th:if="${session.loginUser != null}">
-  <p>
-    <strong th:text="${session.loginUser.userName}"></strong>님 환영합니다.
-  </p>
+      <div class="col-lg-5">
+        <div class="surface-card p-4">
+          <div th:if="${session.loginUser != null}">
+            <span class="badge badge-soft mb-3">Welcome back</span>
+            <h2 class="h4 mb-2">
+              <strong th:text="${session.loginUser.userName}"></strong>님, 다음 여행을 준비해볼까요?
+            </h2>
+            <p class="lead-muted mb-4">새로운 동행 모집글을 확인하거나 직접 여행 계획을 올려보세요.</p>
+            <div class="d-grid gap-2">
+              <a href="/posts" class="btn btn-primary">모집글 둘러보기</a>
+              <a href="/favorites" class="btn btn-outline-primary">내 북마크</a>
+              <a href="/users/logout" class="btn btn-outline-secondary">로그아웃</a>
+            </div>
+          </div>
 
-  <a href="/users/logout">로그아웃</a>
-</div>
+          <div th:if="${session.loginUser == null}">
+            <span class="badge badge-soft mb-3">Join Travory</span>
+            <h2 class="h4 mb-2">여행 취향이 맞는 동행을 만나보세요.</h2>
+            <p class="lead-muted mb-4">로그인하면 북마크, 좋아요, 동행 신청 기능을 사용할 수 있습니다.</p>
+            <div class="d-grid gap-2">
+              <a href="/users/login" class="btn btn-primary">로그인</a>
+              <a href="/users/register" class="btn btn-outline-primary">회원가입</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<section class="pb-5">
+  <div class="container">
+    <div class="row g-3">
+      <div class="col-md-4">
+        <div class="stat-card">
+          <span class="stat-value">Plan</span>
+          <span class="stat-label">일정, 예산, 모집 인원을 한눈에 공유합니다.</span>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="stat-card">
+          <span class="stat-value">Meet</span>
+          <span class="stat-label">관심 있는 여행에 동행 신청을 보냅니다.</span>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="stat-card">
+          <span class="stat-value">Go</span>
+          <span class="stat-label">승인된 참여자와 함께 여행을 완성합니다.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
 
 </body>
 </html>

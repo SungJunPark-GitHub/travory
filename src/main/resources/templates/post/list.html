@@ -1,56 +1,71 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <title>동행 모집 목록</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
+<head th:replace="~{fragments/layout :: head('동행 모집 목록')}"></head>
 <body>
 
-<div class="container mt-5">
-  <h2>동행 모집 목록</h2>
+<div th:replace="~{fragments/layout :: navbar}"></div>
 
-  <div class="mb-3">
-    <a href="/" class="btn btn-outline-secondary">홈</a>
-    <a href="/posts/create" class="btn btn-primary">글쓰기</a>
+<main class="page-shell">
+  <div class="container">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-3 mb-4">
+      <div>
+        <span class="badge badge-soft mb-3">Travel boards</span>
+        <h1 class="h2 fw-bold mb-2">동행 모집 목록</h1>
+        <p class="lead-muted mb-0">일정과 취향이 맞는 여행 동행을 찾아보세요.</p>
+      </div>
+      <div class="d-flex gap-2">
+        <a href="/" class="btn btn-outline-secondary">홈</a>
+        <a href="/posts/create" class="btn btn-primary">글쓰기</a>
+      </div>
+    </div>
+
+    <div class="surface-card overflow-hidden">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="table-light">
+          <tr>
+            <th>ID</th>
+            <th>제목</th>
+            <th>작성자</th>
+            <th>상태</th>
+            <th>기간</th>
+            <th>모집인원</th>
+            <th>조회수</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="post : ${postList}">
+            <td class="text-muted" th:text="${post.id}"></td>
+            <td>
+              <a class="post-title-link"
+                 th:href="@{/posts/{id}(id=${post.id})}"
+                 th:text="${post.title}"></a>
+            </td>
+            <td th:text="${post.user_name}"></td>
+            <td>
+              <span th:if="${post.status == 'OPEN'}" class="badge bg-success">모집중</span>
+              <span th:if="${post.status == 'CLOSED'}" class="badge bg-secondary">모집완료</span>
+              <span th:if="${post.status == 'FINISHED'}" class="badge bg-dark">여행종료</span>
+            </td>
+            <td>
+              <span th:text="${post.start_date}"></span>
+              ~
+              <span th:text="${post.end_date}"></span>
+            </td>
+            <td>
+              <span th:text="${post.max_people}"></span>
+              <span class="text-muted">명</span>
+            </td>
+            <td th:text="${post.view_count}"></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
+</main>
 
-  <table class="table table-hover">
-    <thead>
-    <tr>
-      <th>ID</th>
-      <th>제목</th>
-      <th>작성자</th>
-      <th>상태</th>
-      <th>기간</th>
-      <th>모집인원</th>
-      <th>조회수</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="post : ${postList}">
-      <td th:text="${post.id}"></td>
-      <td>
-        <a th:href="@{/posts/{id}(id=${post.id})}"
-           th:text="${post.title}"></a>
-      </td>
-      <td th:text="${post.user_name}"></td>
-      <td>
-        <span th:if="${post.status == 'OPEN'}" class="badge bg-success">모집중</span>
-        <span th:if="${post.status == 'CLOSED'}" class="badge bg-secondary">모집완료</span>
-        <span th:if="${post.status == 'FINISHED'}" class="badge bg-dark">여행종료</span>
-      </td>
-      <td>
-        <span th:text="${post.start_date}"></span>
-        ~
-        <span th:text="${post.end_date}"></span>
-      </td>
-      <td th:text="${post.max_people}"></td>
-      <td th:text="${post.view_count}"></td>
-    </tr>
-    </tbody>
-  </table>
-</div>
+<div th:replace="~{fragments/layout :: footer}"></div>
 
 </body>
 </html>

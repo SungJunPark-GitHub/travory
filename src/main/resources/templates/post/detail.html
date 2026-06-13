@@ -1,172 +1,208 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>동행 모집 상세</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
+<head th:replace="~{fragments/layout :: head('동행 모집 상세')}"></head>
 <body>
 
-<div class="container mt-5">
-    <h2 th:text="${post.title}"></h2>
+<div th:replace="~{fragments/layout :: navbar}"></div>
 
-    <div class="mb-3">
-        <span th:if="${post.status == 'OPEN'}" class="badge bg-success">모집중</span>
-        <span th:if="${post.status == 'CLOSED'}" class="badge bg-secondary">모집완료</span>
-        <span th:if="${post.status == 'FINISHED'}" class="badge bg-dark">여행종료</span>
-    </div>
+<main class="page-shell">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-8">
+                <article class="surface-card p-4 p-md-5">
+                    <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+                        <span th:if="${post.status == 'OPEN'}" class="badge bg-success">모집중</span>
+                        <span th:if="${post.status == 'CLOSED'}" class="badge bg-secondary">모집완료</span>
+                        <span th:if="${post.status == 'FINISHED'}" class="badge bg-dark">여행종료</span>
+                    </div>
 
-    <div class="mb-3 text-muted">
-        <span>조회수: </span>
-        <span th:text="${post.viewCount}"></span>
-        <span class="ms-3">좋아요: </span>
-        <span th:text="${likeCount}"></span>
-        <span class="ms-3">북마크: </span>
-        <span th:text="${favoriteCount}"></span>
-        <span class="ms-3">참여자: </span>
-        <span th:text="${participantCount}"></span>
-    </div>
+                    <h1 class="h2 fw-bold mb-4" th:text="${post.title}"></h1>
 
-    <div class="mb-3">
-        <form th:if="${session.loginUser != null and !liked}"
-              th:action="@{/posts/{postId}/likes(postId=${post.id})}"
-              method="post">
-            <button type="submit" class="btn btn-outline-primary">좋아요</button>
-        </form>
+                    <div class="row g-3 mb-4">
+                        <div class="col-6 col-md-3">
+                            <div class="stat-card">
+                                <span class="stat-value" th:text="${post.viewCount}"></span>
+                                <span class="stat-label">조회수</span>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="stat-card">
+                                <span class="stat-value" th:text="${likeCount}"></span>
+                                <span class="stat-label">좋아요</span>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="stat-card">
+                                <span class="stat-value" th:text="${favoriteCount}"></span>
+                                <span class="stat-label">북마크</span>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="stat-card">
+                                <span class="stat-value" th:text="${participantCount}"></span>
+                                <span class="stat-label">참여자</span>
+                            </div>
+                        </div>
+                    </div>
 
-        <form th:if="${session.loginUser != null and liked}"
-              th:action="@{/posts/{postId}/likes/delete(postId=${post.id})}"
-              method="post">
-            <button type="submit" class="btn btn-primary">좋아요 취소</button>
-        </form>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-4">
+                            <div class="p-3 bg-light rounded">
+                                <strong>여행 기간</strong>
+                                <p class="mb-0 mt-2">
+                                    <span th:text="${post.startDate}"></span>
+                                    ~
+                                    <span th:text="${post.endDate}"></span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="p-3 bg-light rounded">
+                                <strong>모집 인원</strong>
+                                <p class="mb-0 mt-2">
+                                    <span th:text="${post.maxPeople}"></span>
+                                    <span>명</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="p-3 bg-light rounded">
+                                <strong>예상 비용</strong>
+                                <p class="mb-0 mt-2" th:text="${post.budget}"></p>
+                            </div>
+                        </div>
+                    </div>
 
-        <div th:if="${session.loginUser == null}" class="text-muted">
-            좋아요를 누르려면 로그인이 필요합니다.
-        </div>
-    </div>
+                    <hr>
 
-    <div class="mb-3">
-        <form th:if="${session.loginUser != null and !favorited}"
-              th:action="@{/posts/{postId}/favorites(postId=${post.id})}"
-              method="post">
-            <button type="submit" class="btn btn-outline-success">북마크</button>
-        </form>
+                    <div class="content-box fs-6" th:text="${post.content}"></div>
+                </article>
 
-        <form th:if="${session.loginUser != null and favorited}"
-              th:action="@{/posts/{postId}/favorites/delete(postId=${post.id})}"
-              method="post">
-            <button type="submit" class="btn btn-success">북마크 취소</button>
-        </form>
+                <section class="surface-card p-4 mt-4">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <h2 class="h4 fw-bold mb-0">댓글</h2>
+                    </div>
 
-        <div th:if="${session.loginUser == null}" class="text-muted">
-            북마크하려면 로그인이 필요합니다.
-        </div>
-    </div>
+                    <form action="/comments/create" method="post" th:if="${session.loginUser != null}">
+                        <input type="hidden" name="postId" th:value="${post.id}">
 
-    <div class="mb-3">
-        <strong>여행 기간</strong>
-        <p>
-            <span th:text="${post.startDate}"></span>
-            ~
-            <span th:text="${post.endDate}"></span>
-        </p>
-    </div>
+                        <div class="mb-3">
+                            <textarea name="content" class="form-control" rows="3" placeholder="댓글을 입력하세요"></textarea>
+                        </div>
 
-    <div class="mb-3">
-        <strong>모집 인원</strong>
-        <p th:text="${post.maxPeople}"></p>
-    </div>
+                        <button class="btn btn-primary">댓글 작성</button>
+                    </form>
 
-    <div class="mb-3">
-        <strong>예상 비용</strong>
-        <p th:text="${post.budget}"></p>
-    </div>
+                    <div th:if="${session.loginUser == null}" class="alert alert-secondary">
+                        댓글을 작성하려면 로그인이 필요합니다.
+                    </div>
 
-    <div class="mb-3"
-         th:if="${session.loginUser != null and session.loginUser.id != post.userId and !applied}">
-        <form th:action="@{/posts/{postId}/requests(postId=${post.id})}" method="post">
-            <label for="companionMessage" class="form-label">동행 신청 메시지</label>
-            <textarea id="companionMessage"
-                      name="message"
-                      class="form-control"
-                      rows="3"
-                      placeholder="동행 신청 메시지를 입력하세요"></textarea>
-            <button type="submit" class="btn btn-outline-primary mt-2">동행 신청</button>
-        </form>
-    </div>
+                    <div class="mt-4">
+                        <div class="card mb-2 border-0 bg-light" th:each="comment : ${commentList}">
+                            <div class="card-body">
+                                <strong th:text="${comment.userName}"></strong>
+                                <p class="mt-2 mb-3" th:text="${comment.content}"></p>
 
-    <div class="alert alert-info"
-         th:if="${session.loginUser != null and session.loginUser.id != post.userId and applied}">
-        이미 동행 신청을 보냈습니다.
-    </div>
+                                <form th:if="${session.loginUser != null and session.loginUser.id == comment.userId}"
+                                      th:action="@{/comments/{id}/delete(id=${comment.id})}"
+                                      method="post">
+                                    <input type="hidden" name="postId" th:value="${post.id}">
+                                    <button class="btn btn-sm btn-outline-danger">삭제</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
 
-    <div class="mb-3"
-         th:if="${session.loginUser != null and session.loginUser.id == post.userId}">
-        <a th:href="@{/posts/{id}/requests(id=${post.id})}" class="btn btn-outline-primary">동행 신청 관리</a>
-    </div>
+            <div class="col-lg-4">
+                <div class="surface-card p-4 sticky-lg-top" style="top: 88px;">
+                    <h2 class="h5 fw-bold mb-3">여행 참여</h2>
 
-    <hr>
+                    <div class="d-grid gap-2 mb-3">
+                        <form th:if="${session.loginUser != null and !liked}"
+                              th:action="@{/posts/{postId}/likes(postId=${post.id})}"
+                              method="post">
+                            <button type="submit" class="btn btn-outline-primary w-100">좋아요</button>
+                        </form>
 
-    <div class="mb-3">
-        <p th:text="${post.content}"></p>
-    </div>
+                        <form th:if="${session.loginUser != null and liked}"
+                              th:action="@{/posts/{postId}/likes/delete(postId=${post.id})}"
+                              method="post">
+                            <button type="submit" class="btn btn-primary w-100">좋아요 취소</button>
+                        </form>
 
-    <hr>
+                        <form th:if="${session.loginUser != null and !favorited}"
+                              th:action="@{/posts/{postId}/favorites(postId=${post.id})}"
+                              method="post">
+                            <button type="submit" class="btn btn-outline-success w-100">북마크</button>
+                        </form>
 
-    <h4>댓글</h4>
+                        <form th:if="${session.loginUser != null and favorited}"
+                              th:action="@{/posts/{postId}/favorites/delete(postId=${post.id})}"
+                              method="post">
+                            <button type="submit" class="btn btn-success w-100">북마크 취소</button>
+                        </form>
+                    </div>
 
-    <form action="/comments/create" method="post" th:if="${session.loginUser != null}">
-        <input type="hidden" name="postId" th:value="${post.id}">
+                    <div th:if="${session.loginUser == null}" class="alert alert-secondary">
+                        좋아요, 북마크, 동행 신청을 사용하려면 로그인이 필요합니다.
+                    </div>
 
-        <div class="mb-3">
-            <textarea name="content" class="form-control" rows="3" placeholder="댓글을 입력하세요"></textarea>
-        </div>
+                    <div class="mb-3"
+                         th:if="${session.loginUser != null and session.loginUser.id != post.userId and !applied}">
+                        <form th:action="@{/posts/{postId}/requests(postId=${post.id})}" method="post">
+                            <label for="companionMessage" class="form-label">동행 신청 메시지</label>
+                            <textarea id="companionMessage"
+                                      name="message"
+                                      class="form-control"
+                                      rows="4"
+                                      placeholder="동행 신청 메시지를 입력하세요"></textarea>
+                            <button type="submit" class="btn btn-primary w-100 mt-2">동행 신청</button>
+                        </form>
+                    </div>
 
-        <button class="btn btn-primary">댓글 작성</button>
-    </form>
+                    <div class="alert alert-info"
+                         th:if="${session.loginUser != null and session.loginUser.id != post.userId and applied}">
+                        이미 동행 신청을 보냈습니다.
+                    </div>
 
-    <div th:if="${session.loginUser == null}" class="alert alert-secondary">
-        댓글을 작성하려면 로그인이 필요합니다.
-    </div>
+                    <div th:if="${session.loginUser != null and session.loginUser.id == post.userId}">
+                        <div class="alert alert-light border">
+                            이 모집글의 작성자입니다.
+                        </div>
 
-    <div class="mt-4">
-        <div class="card mb-2" th:each="comment : ${commentList}">
-            <div class="card-body">
-                <strong th:text="${comment.userName}"></strong>
-                <p class="mt-2" th:text="${comment.content}"></p>
+                        <form th:action="@{/posts/{id}/status(id=${post.id})}" method="post" class="mb-3">
+                            <label class="form-label">모집 상태</label>
+                            <select name="status" class="form-select mb-2">
+                                <option value="OPEN" th:selected="${post.status == 'OPEN'}">모집중</option>
+                                <option value="CLOSED" th:selected="${post.status == 'CLOSED'}">모집완료</option>
+                                <option value="FINISHED" th:selected="${post.status == 'FINISHED'}">여행종료</option>
+                            </select>
+                            <button type="submit" class="btn btn-outline-primary w-100">상태 변경</button>
+                        </form>
 
-                <form th:if="${session.loginUser != null and session.loginUser.id == comment.userId}"
-                      th:action="@{/comments/{id}/delete(id=${comment.id})}"
-                      method="post">
-                    <input type="hidden" name="postId" th:value="${post.id}">
-                    <button class="btn btn-sm btn-danger">삭제</button>
-                </form>
+                        <div class="d-grid gap-2">
+                            <a th:href="@{/posts/{id}/requests(id=${post.id})}" class="btn btn-outline-primary">동행 신청 관리</a>
+                            <a th:href="@{/posts/{id}/edit(id=${post.id})}" class="btn btn-warning">수정</a>
+                        </div>
+
+                        <form th:action="@{/posts/{id}/delete(id=${post.id})}" method="post" class="mt-2">
+                            <button type="submit" class="btn btn-outline-danger w-100"
+                                    onclick="return confirm('정말 삭제하시겠습니까?')">
+                                삭제
+                            </button>
+                        </form>
+                    </div>
+
+                    <a href="/posts" class="btn btn-outline-secondary w-100 mt-3">목록</a>
+                </div>
             </div>
         </div>
     </div>
+</main>
 
-    <a href="/posts" class="btn btn-secondary">목록</a>
-</div>
-
-<div th:if="${session.loginUser != null and session.loginUser.id == post.userId}">
-    <form th:action="@{/posts/{id}/status(id=${post.id})}" method="post" class="mb-3">
-        <select name="status" class="form-select form-select-sm w-auto d-inline-block">
-            <option value="OPEN" th:selected="${post.status == 'OPEN'}">모집중</option>
-            <option value="CLOSED" th:selected="${post.status == 'CLOSED'}">모집완료</option>
-            <option value="FINISHED" th:selected="${post.status == 'FINISHED'}">여행종료</option>
-        </select>
-        <button type="submit" class="btn btn-sm btn-outline-primary">상태 변경</button>
-    </form>
-
-    <a th:href="@{/posts/{id}/edit(id=${post.id})}" class="btn btn-warning">수정</a>
-
-    <form th:action="@{/posts/{id}/delete(id=${post.id})}" method="post" style="display:inline;">
-        <button type="submit" class="btn btn-danger"
-                onclick="return confirm('정말 삭제하시겠습니까?')">
-            삭제
-        </button>
-    </form>
-</div>
+<div th:replace="~{fragments/layout :: footer}"></div>
 
 </body>
 </html>

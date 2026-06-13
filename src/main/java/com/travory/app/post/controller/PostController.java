@@ -59,4 +59,66 @@ public class PostController {
 
         return "post/detail";
     }
+
+    @GetMapping("/{id}/edit")
+    public String editPage(@PathVariable Long id,
+                           HttpSession session,
+                           Model model) {
+
+        UserDto loginUser = (UserDto) session.getAttribute("loginUser");
+
+        if (loginUser == null) {
+            return "redirect:/users/login";
+        }
+
+        PostDto post = postService.getPostDetail(id);
+
+        if (!post.getUserId().equals(loginUser.getId())) {
+            return "redirect:/posts";
+        }
+
+        model.addAttribute("post", post);
+
+        return "post/edit";
+    }
+
+    @PostMapping("/{id}/edit")
+    public String edit(@PathVariable Long id,
+                       PostDto postDto,
+                       HttpSession session) {
+
+        UserDto loginUser = (UserDto) session.getAttribute("loginUser");
+
+        if (loginUser == null) {
+            return "redirect:/users/login";
+        }
+
+        postDto.setId(id);
+        postDto.setUserId(loginUser.getId());
+
+        postService.updatePost(postDto);
+
+        return "redirect:/posts/" + id;
+    }
+
+    @PostMapping("/{id}/delete")
+    public String delete(@PathVariable Long id,
+                         HttpSession session) {
+
+        UserDto loginUser = (UserDto) session.getAttribute("loginUser");
+
+        if (loginUser == null) {
+            return "redirect:/users/login";
+        }
+
+        PostDto post = postService.getPostDetail(id);
+
+        if (!post.getUserId().equals(loginUser.getId())) {
+            return "redirect:/posts";
+        }
+
+        postService.deletePost(id);
+
+        return "redirect:/posts";
+    }
 }

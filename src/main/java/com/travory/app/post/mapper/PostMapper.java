@@ -18,4 +18,8 @@ public interface PostMapper {
     void increaseViewCount(Long id);
 
     List<Map<String, Object>> findAllWithUser();
+
+    void updatePost(PostDto postDto);
+
+    void deletePost(Long id);
 }

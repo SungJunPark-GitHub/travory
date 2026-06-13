@@ -12,4 +12,8 @@ public interface PostService {
     List<Map<String, Object>> getPostList();
 
     PostDto getPostDetail(Long id);
+
+    void updatePost(PostDto postDto);
+
+    void deletePost(Long id);
 }

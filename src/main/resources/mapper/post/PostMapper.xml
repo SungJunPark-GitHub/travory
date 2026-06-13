@@ -65,4 +65,22 @@
         WHERE id = #{id}
     </update>
 
+    <update id="updatePost">
+        UPDATE posts
+        SET
+            title = #{title},
+            content = #{content},
+            start_date = #{startDate},
+            end_date = #{endDate},
+            max_people = #{maxPeople},
+            budget = #{budget}
+        WHERE id = #{id}
+          AND user_id = #{userId}
+    </update>
+
+    <delete id="deletePost">
+        DELETE FROM posts
+        WHERE id = #{id}
+    </delete>
+
 </mapper>

@@ -29,4 +29,14 @@ public class PostServiceImpl implements PostService {
         postMapper.increaseViewCount(id);
         return postMapper.findById(id);
     }
+
+    @Override
+    public void updatePost(PostDto postDto) {
+        postMapper.updatePost(postDto);
+    }
+
+    @Override
+    public void deletePost(Long id) {
+        postMapper.deletePost(id);
+    }
 }

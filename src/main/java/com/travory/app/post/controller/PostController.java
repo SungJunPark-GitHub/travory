@@ -78,7 +78,7 @@ public class PostController {
             return "redirect:/users/login";
         }
 
-        PostDto post = postService.getPostDetail(id);
+        PostDto post = postService.getPostById(id);
 
         if (!post.getUserId().equals(loginUser.getId())) {
             return "redirect:/posts";
@@ -118,7 +118,7 @@ public class PostController {
             return "redirect:/users/login";
         }
 
-        PostDto post = postService.getPostDetail(id);
+        PostDto post = postService.getPostById(id);
 
         if (!post.getUserId().equals(loginUser.getId())) {
             return "redirect:/posts";

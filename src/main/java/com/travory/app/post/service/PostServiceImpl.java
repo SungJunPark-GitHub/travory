@@ -31,6 +31,11 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public PostDto getPostById(Long id) {
+        return postMapper.findById(id);
+    }
+
+    @Override
     public void updatePost(PostDto postDto) {
         postMapper.updatePost(postDto);
     }

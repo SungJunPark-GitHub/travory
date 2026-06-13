@@ -1,8 +1,6 @@
 package com.travory.app.comment.controller;
 
 import com.travory.app.comment.dto.CommentDto;
-import com.travory.app.comment.dto.CommentDto;
-import com.travory.app.comment.mapper.CommentMapper;
 import com.travory.app.comment.service.CommentService;
 import com.travory.app.user.dto.UserDto;
 import jakarta.servlet.http.HttpSession;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 public class CommentController {
 
     private final CommentService commentService;
-    private final CommentMapper commentMapper;
 
     @PostMapping("/create")
     public String create(CommentDto commentDto,
@@ -49,7 +46,7 @@ public class CommentController {
         }
 
         CommentDto comment =
-                commentMapper.findById(id);
+                commentService.getCommentById(id);
 
         if (!comment.getUserId().equals(loginUser.getId())) {
             return "redirect:/posts/" + postId;

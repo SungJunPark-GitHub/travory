@@ -20,6 +20,7 @@
     <tr>
       <th>ID</th>
       <th>제목</th>
+      <th>작성자</th>
       <th>기간</th>
       <th>모집인원</th>
       <th>조회수</th>
@@ -32,13 +33,14 @@
         <a th:href="@{/posts/{id}(id=${post.id})}"
            th:text="${post.title}"></a>
       </td>
+      <td th:text="${post.user_name}"></td>
       <td>
-        <span th:text="${post.startDate}"></span>
+        <span th:text="${post.start_date}"></span>
         ~
-        <span th:text="${post.endDate}"></span>
+        <span th:text="${post.end_date}"></span>
       </td>
-      <td th:text="${post.maxPeople}"></td>
-      <td th:text="${post.viewCount}"></td>
+      <td th:text="${post.max_people}"></td>
+      <td th:text="${post.view_count}"></td>
     </tr>
     </tbody>
   </table>

@@ -2,6 +2,7 @@ package com.travory.app.post.mapper;
 
 import com.travory.app.post.dto.PostDto;
 import org.apache.ibatis.annotations.Mapper;
+import java.util.Map;
 
 import java.util.List;
 
@@ -15,4 +16,6 @@ public interface PostMapper {
     PostDto findById(Long id);
 
     void increaseViewCount(Long id);
+
+    List<Map<String, Object>> findAllWithUser();
 }

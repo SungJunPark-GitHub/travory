@@ -15,6 +15,8 @@
         <span th:text="${post.viewCount}"></span>
         <span class="ms-3">좋아요: </span>
         <span th:text="${likeCount}"></span>
+        <span class="ms-3">북마크: </span>
+        <span th:text="${favoriteCount}"></span>
     </div>
 
     <div class="mb-3">
@@ -32,6 +34,24 @@
 
         <div th:if="${session.loginUser == null}" class="text-muted">
             좋아요를 누르려면 로그인이 필요합니다.
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <form th:if="${session.loginUser != null and !favorited}"
+              th:action="@{/posts/{postId}/favorites(postId=${post.id})}"
+              method="post">
+            <button type="submit" class="btn btn-outline-success">북마크</button>
+        </form>
+
+        <form th:if="${session.loginUser != null and favorited}"
+              th:action="@{/posts/{postId}/favorites/delete(postId=${post.id})}"
+              method="post">
+            <button type="submit" class="btn btn-success">북마크 취소</button>
+        </form>
+
+        <div th:if="${session.loginUser == null}" class="text-muted">
+            북마크하려면 로그인이 필요합니다.
         </div>
     </div>
 

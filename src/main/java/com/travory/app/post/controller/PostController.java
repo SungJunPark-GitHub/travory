@@ -2,6 +2,7 @@ package com.travory.app.post.controller;
 
 import com.travory.app.post.dto.PostDto;
 import com.travory.app.post.service.PostService;
+import com.travory.app.favorite.service.FavoriteService;
 import com.travory.app.postlike.service.PostLikeService;
 import com.travory.app.user.dto.UserDto;
 import jakarta.servlet.http.HttpSession;
@@ -19,6 +20,7 @@ public class PostController {
 
     private final PostService postService;
     private final PostLikeService postLikeService;
+    private final FavoriteService favoriteService;
 
     @GetMapping
     public String list(Model model) {
@@ -72,6 +74,11 @@ public class PostController {
                 postLikeService.getLikeCount(id)
         );
 
+        model.addAttribute(
+                "favoriteCount",
+                favoriteService.getFavoriteCount(id)
+        );
+
         UserDto loginUser =
                 (UserDto) session.getAttribute("loginUser");
 
@@ -79,7 +86,12 @@ public class PostController {
                 loginUser != null &&
                         postLikeService.isLikedByUser(id, loginUser.getId());
 
+        boolean favorited =
+                loginUser != null &&
+                        favoriteService.isFavoritedByUser(id, loginUser.getId());
+
         model.addAttribute("liked", liked);
+        model.addAttribute("favorited", favorited);
 
         return "post/detail";
     }

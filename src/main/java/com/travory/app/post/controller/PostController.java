@@ -2,6 +2,7 @@ package com.travory.app.post.controller;
 
 import com.travory.app.post.dto.PostDto;
 import com.travory.app.post.service.PostService;
+import com.travory.app.postlike.service.PostLikeService;
 import com.travory.app.user.dto.UserDto;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,7 @@ import com.travory.app.comment.service.CommentService;
 public class PostController {
 
     private final PostService postService;
+    private final PostLikeService postLikeService;
 
     @GetMapping
     public String list(Model model) {
@@ -52,6 +54,7 @@ public class PostController {
 
     @GetMapping("/{id}")
     public String detail(@PathVariable Long id,
+                         HttpSession session,
                          Model model) {
 
         model.addAttribute(
@@ -63,6 +66,20 @@ public class PostController {
                 "commentList",
                 commentService.getComments(id)
         );
+
+        model.addAttribute(
+                "likeCount",
+                postLikeService.getLikeCount(id)
+        );
+
+        UserDto loginUser =
+                (UserDto) session.getAttribute("loginUser");
+
+        boolean liked =
+                loginUser != null &&
+                        postLikeService.isLikedByUser(id, loginUser.getId());
+
+        model.addAttribute("liked", liked);
 
         return "post/detail";
     }

@@ -40,6 +40,40 @@
         <p th:text="${post.content}"></p>
     </div>
 
+    <hr>
+
+    <h4>댓글</h4>
+
+    <form action="/comments/create" method="post" th:if="${session.loginUser != null}">
+        <input type="hidden" name="postId" th:value="${post.id}">
+
+        <div class="mb-3">
+            <textarea name="content" class="form-control" rows="3" placeholder="댓글을 입력하세요"></textarea>
+        </div>
+
+        <button class="btn btn-primary">댓글 작성</button>
+    </form>
+
+    <div th:if="${session.loginUser == null}" class="alert alert-secondary">
+        댓글을 작성하려면 로그인이 필요합니다.
+    </div>
+
+    <div class="mt-4">
+        <div class="card mb-2" th:each="comment : ${commentList}">
+            <div class="card-body">
+                <strong th:text="${comment.userName}"></strong>
+                <p class="mt-2" th:text="${comment.content}"></p>
+
+                <form th:if="${session.loginUser != null and session.loginUser.id == comment.userId}"
+                      th:action="@{/comments/{id}/delete(id=${comment.id})}"
+                      method="post">
+                    <input type="hidden" name="postId" th:value="${post.id}">
+                    <button class="btn btn-sm btn-danger">삭제</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <a href="/posts" class="btn btn-secondary">목록</a>
 </div>
 

@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import com.travory.app.comment.service.CommentService;
+
 @Controller
 @RequestMapping("/posts")
 @RequiredArgsConstructor
@@ -55,6 +57,11 @@ public class PostController {
         model.addAttribute(
                 "post",
                 postService.getPostDetail(id)
+        );
+
+        model.addAttribute(
+                "commentList",
+                commentService.getComments(id)
         );
 
         return "post/detail";
@@ -121,4 +128,6 @@ public class PostController {
 
         return "redirect:/posts";
     }
+
+    private final CommentService commentService;
 }

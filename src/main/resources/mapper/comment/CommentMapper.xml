@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.travory.app.comment.mapper.CommentMapper">
+
+    <insert id="insertComment">
+        INSERT INTO comments
+        (
+            post_id,
+            user_id,
+            content
+        )
+        VALUES
+            (
+                #{postId},
+                #{userId},
+                #{content}
+            )
+    </insert>
+
+    <select id="findByPostId"
+            resultType="com.travory.app.comment.dto.CommentDto">
+        SELECT
+            c.id,
+            c.post_id,
+            c.user_id,
+            c.content,
+            c.created_at,
+            u.user_name
+        FROM comments c
+                 JOIN users u ON c.user_id = u.id
+        WHERE c.post_id = #{postId}
+        ORDER BY c.id ASC
+    </select>
+
+    <select id="findById"
+            resultType="com.travory.app.comment.dto.CommentDto">
+        SELECT *
+        FROM comments
+        WHERE id = #{id}
+    </select>
+
+    <delete id="deleteComment">
+        DELETE FROM comments
+        WHERE id = #{id}
+    </delete>
+
+</mapper>

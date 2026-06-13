@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.travory.app.companion.mapper.CompanionMapper">
+
+    <insert id="insertRequest">
+        INSERT INTO companion_requests
+        (
+            post_id,
+            user_id,
+            message
+        )
+        VALUES
+            (
+                #{postId},
+                #{userId},
+                #{message}
+            )
+    </insert>
+
+    <select id="findByPostId" resultType="map">
+        SELECT
+            cr.id,
+            cr.post_id,
+            cr.user_id,
+            cr.message,
+            cr.status,
+            cr.created_at,
+            u.user_id AS applicant_login_id,
+            u.user_name,
+            u.email
+        FROM companion_requests cr
+                 JOIN users u ON cr.user_id = u.id
+        WHERE cr.post_id = #{postId}
+        ORDER BY cr.id DESC
+    </select>
+
+    <update id="updateStatus">
+        UPDATE companion_requests
+        SET status = #{status}
+        WHERE id = #{id}
+          AND post_id = #{postId}
+    </update>
+
+    <select id="countApprovedByPostId" resultType="int">
+        SELECT COUNT(*)
+        FROM companion_requests
+        WHERE post_id = #{postId}
+          AND status = 'APPROVED'
+    </select>
+
+    <select id="existsByPostIdAndUserId" resultType="int">
+        SELECT COUNT(*)
+        FROM companion_requests
+        WHERE post_id = #{postId}
+          AND user_id = #{userId}
+    </select>
+
+</mapper>

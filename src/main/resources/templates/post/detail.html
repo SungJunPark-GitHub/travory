@@ -23,6 +23,8 @@
         <span th:text="${likeCount}"></span>
         <span class="ms-3">북마크: </span>
         <span th:text="${favoriteCount}"></span>
+        <span class="ms-3">참여자: </span>
+        <span th:text="${participantCount}"></span>
     </div>
 
     <div class="mb-3">
@@ -78,6 +80,29 @@
     <div class="mb-3">
         <strong>예상 비용</strong>
         <p th:text="${post.budget}"></p>
+    </div>
+
+    <div class="mb-3"
+         th:if="${session.loginUser != null and session.loginUser.id != post.userId and !applied}">
+        <form th:action="@{/posts/{postId}/requests(postId=${post.id})}" method="post">
+            <label for="companionMessage" class="form-label">동행 신청 메시지</label>
+            <textarea id="companionMessage"
+                      name="message"
+                      class="form-control"
+                      rows="3"
+                      placeholder="동행 신청 메시지를 입력하세요"></textarea>
+            <button type="submit" class="btn btn-outline-primary mt-2">동행 신청</button>
+        </form>
+    </div>
+
+    <div class="alert alert-info"
+         th:if="${session.loginUser != null and session.loginUser.id != post.userId and applied}">
+        이미 동행 신청을 보냈습니다.
+    </div>
+
+    <div class="mb-3"
+         th:if="${session.loginUser != null and session.loginUser.id == post.userId}">
+        <a th:href="@{/posts/{id}/requests(id=${post.id})}" class="btn btn-outline-primary">동행 신청 관리</a>
     </div>
 
     <hr>

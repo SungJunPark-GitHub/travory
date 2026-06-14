@@ -23,8 +23,14 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<Map<String, Object>> getPostList() {
-        return postMapper.findAllWithUser();
+    public List<Map<String, Object>> getPostList(String keyword, int page, int size) {
+        int offset = (page - 1) * size;
+        return postMapper.findPostsPaged(keyword, offset, size);
+    }
+
+    @Override
+    public int countPosts(String keyword) {
+        return postMapper.countPosts(keyword);
     }
 
     @Override

@@ -25,10 +25,35 @@ public class PostController {
     private final CompanionService companionService;
 
     @GetMapping
-    public String list(Model model) {
+    public String list(@RequestParam(defaultValue = "1") int page,
+                       @RequestParam(required = false) String keyword,
+                       Model model) {
+
+        String searchKeyword = keyword == null ? null : keyword.trim();
+        int currentPage = Math.max(page, 1);
+        int size = 10;
+        int totalPosts = postService.countPosts(searchKeyword);
+        int totalPages = (int) Math.ceil((double) totalPosts / size);
+
+        if (totalPages == 0) {
+            totalPages = 1;
+        }
+
+        if (currentPage > totalPages) {
+            currentPage = totalPages;
+        }
+
+        int startPage = Math.max(currentPage - 2, 1);
+        int endPage = Math.min(startPage + 4, totalPages);
+        startPage = Math.max(endPage - 4, 1);
 
         model.addAttribute("postList",
-                postService.getPostList());
+                postService.getPostList(searchKeyword, currentPage, size));
+        model.addAttribute("keyword", searchKeyword);
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
 
         return "post/list";
     }

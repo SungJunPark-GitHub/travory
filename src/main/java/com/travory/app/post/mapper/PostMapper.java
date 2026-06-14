@@ -14,11 +14,17 @@ public interface PostMapper {
 
     List<PostDto> findAll();
 
+    int countPosts(@Param("keyword") String keyword);
+
     PostDto findById(Long id);
 
     void increaseViewCount(Long id);
 
     List<Map<String, Object>> findAllWithUser();
+
+    List<Map<String, Object>> findPostsPaged(@Param("keyword") String keyword,
+                                             @Param("offset") int offset,
+                                             @Param("size") int size);
 
     void updatePost(PostDto postDto);
 

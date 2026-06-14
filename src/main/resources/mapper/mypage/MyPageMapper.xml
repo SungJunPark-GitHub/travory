@@ -57,4 +57,35 @@
         ORDER BY cr.id DESC
     </select>
 
+    <select id="findStatisticsByUserId" resultType="map">
+        SELECT
+            (
+                SELECT COUNT(*)
+                FROM posts
+                WHERE user_id = #{userId}
+            ) AS my_post_count,
+            (
+                SELECT COUNT(*)
+                FROM favorites
+                WHERE user_id = #{userId}
+            ) AS my_favorite_count,
+            (
+                SELECT COUNT(*)
+                FROM companion_requests
+                WHERE user_id = #{userId}
+                  AND status = 'APPROVED'
+            ) AS my_approved_companion_count,
+            (
+                SELECT COUNT(*)
+                FROM post_likes pl
+                         JOIN posts p ON pl.post_id = p.id
+                WHERE p.user_id = #{userId}
+            ) AS total_likes_received,
+            (
+                SELECT COUNT(*)
+                FROM comments
+                WHERE user_id = #{userId}
+            ) AS my_comment_count
+    </select>
+
 </mapper>

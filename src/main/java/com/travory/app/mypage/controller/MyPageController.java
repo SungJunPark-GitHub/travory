@@ -43,6 +43,10 @@ public class MyPageController {
                 "companionRequestList",
                 myPageService.getCompanionRequests(loginUser.getId())
         );
+        model.addAttribute(
+                "statistics",
+                myPageService.getStatistics(loginUser.getId())
+        );
 
         return "mypage/index";
     }

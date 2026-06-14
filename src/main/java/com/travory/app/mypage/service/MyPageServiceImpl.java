@@ -27,4 +27,9 @@ public class MyPageServiceImpl implements MyPageService {
     public List<Map<String, Object>> getCompanionRequests(Long userId) {
         return myPageMapper.findCompanionRequestsByUserId(userId);
     }
+
+    @Override
+    public Map<String, Object> getStatistics(Long userId) {
+        return myPageMapper.findStatisticsByUserId(userId);
+    }
 }

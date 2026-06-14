@@ -13,4 +13,6 @@ public interface MyPageMapper {
     List<Map<String, Object>> findFavoritePostsByUserId(Long userId);
 
     List<Map<String, Object>> findCompanionRequestsByUserId(Long userId);
+
+    Map<String, Object> findStatisticsByUserId(Long userId);
 }

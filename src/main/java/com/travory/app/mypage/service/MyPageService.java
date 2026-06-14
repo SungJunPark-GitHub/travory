@@ -10,4 +10,6 @@ public interface MyPageService {
     List<Map<String, Object>> getFavoritePosts(Long userId);
 
     List<Map<String, Object>> getCompanionRequests(Long userId);
+
+    Map<String, Object> getStatistics(Long userId);
 }

@@ -21,26 +21,61 @@
                     <div class="row g-3">
                         <div class="col-4">
                             <div class="stat-card text-center">
-                                <span class="stat-value" th:text="${#lists.size(myPostList)}"></span>
+                                <span class="stat-value" th:text="${statistics.my_post_count}"></span>
                                 <span class="stat-label">작성글</span>
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="stat-card text-center">
-                                <span class="stat-value" th:text="${#lists.size(favoritePostList)}"></span>
+                                <span class="stat-value" th:text="${statistics.my_favorite_count}"></span>
                                 <span class="stat-label">북마크</span>
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="stat-card text-center">
-                                <span class="stat-value" th:text="${#lists.size(companionRequestList)}"></span>
-                                <span class="stat-label">신청</span>
+                                <span class="stat-value" th:text="${statistics.my_approved_companion_count}"></span>
+                                <span class="stat-label">승인 동행</span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <section class="mb-4">
+            <div class="row g-3">
+                <div class="col-6 col-lg">
+                    <div class="stat-card text-center h-100">
+                        <span class="stat-value" th:text="${statistics.my_post_count}"></span>
+                        <span class="stat-label">내 모집글</span>
+                    </div>
+                </div>
+                <div class="col-6 col-lg">
+                    <div class="stat-card text-center h-100">
+                        <span class="stat-value" th:text="${statistics.my_favorite_count}"></span>
+                        <span class="stat-label">내 북마크</span>
+                    </div>
+                </div>
+                <div class="col-6 col-lg">
+                    <div class="stat-card text-center h-100">
+                        <span class="stat-value" th:text="${statistics.my_approved_companion_count}"></span>
+                        <span class="stat-label">승인된 동행</span>
+                    </div>
+                </div>
+                <div class="col-6 col-lg">
+                    <div class="stat-card text-center h-100">
+                        <span class="stat-value" th:text="${statistics.total_likes_received}"></span>
+                        <span class="stat-label">받은 좋아요</span>
+                    </div>
+                </div>
+                <div class="col-6 col-lg">
+                    <div class="stat-card text-center h-100">
+                        <span class="stat-value" th:text="${statistics.my_comment_count}"></span>
+                        <span class="stat-label">내 댓글</span>
+                    </div>
+                </div>
+            </div>
+        </section>
 
         <div class="row g-4">
             <div class="col-lg-4">

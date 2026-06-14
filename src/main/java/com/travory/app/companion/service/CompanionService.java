@@ -13,9 +13,13 @@ public interface CompanionService {
 
     void rejectRequest(Long postId, Long requestId, Long ownerId);
 
+    void cancelRequest(Long postId, Long userId);
+
     int getParticipantCount(Long postId);
 
     boolean hasRequested(Long postId, Long userId);
 
     boolean hasApprovedRequest(Long postId, Long userId);
+
+    String getRequestStatus(Long postId, Long userId);
 }

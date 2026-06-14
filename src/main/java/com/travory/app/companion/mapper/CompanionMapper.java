@@ -21,6 +21,9 @@ public interface CompanionMapper {
                       @Param("postId") Long postId,
                       @Param("status") String status);
 
+    void deletePendingByPostIdAndUserId(@Param("postId") Long postId,
+                                        @Param("userId") Long userId);
+
     int countApprovedByPostId(Long postId);
 
     int existsByPostIdAndUserId(@Param("postId") Long postId,
@@ -28,4 +31,7 @@ public interface CompanionMapper {
 
     int existsApprovedByPostIdAndUserId(@Param("postId") Long postId,
                                         @Param("userId") Long userId);
+
+    String findStatusByPostIdAndUserId(@Param("postId") Long postId,
+                                       @Param("userId") Long userId);
 }

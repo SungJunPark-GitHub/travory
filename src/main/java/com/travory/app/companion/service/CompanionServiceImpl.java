@@ -63,6 +63,11 @@ public class CompanionServiceImpl implements CompanionService {
     }
 
     @Override
+    public void cancelRequest(Long postId, Long userId) {
+        companionMapper.deletePendingByPostIdAndUserId(postId, userId);
+    }
+
+    @Override
     public int getParticipantCount(Long postId) {
         return companionMapper.countApprovedByPostId(postId);
     }
@@ -75,6 +80,15 @@ public class CompanionServiceImpl implements CompanionService {
     @Override
     public boolean hasApprovedRequest(Long postId, Long userId) {
         return companionMapper.existsApprovedByPostIdAndUserId(postId, userId) > 0;
+    }
+
+    @Override
+    public String getRequestStatus(Long postId, Long userId) {
+        if (userId == null) {
+            return null;
+        }
+
+        return companionMapper.findStatusByPostIdAndUserId(postId, userId);
     }
 
     private void updateRequestStatus(Long postId,

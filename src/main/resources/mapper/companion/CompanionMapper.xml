@@ -56,6 +56,13 @@
           AND post_id = #{postId}
     </update>
 
+    <delete id="deletePendingByPostIdAndUserId">
+        DELETE FROM companion_requests
+        WHERE post_id = #{postId}
+          AND user_id = #{userId}
+          AND status = 'PENDING'
+    </delete>
+
     <select id="countApprovedByPostId" resultType="int">
         SELECT COUNT(*)
         FROM companion_requests
@@ -76,6 +83,14 @@
         WHERE post_id = #{postId}
           AND user_id = #{userId}
           AND status = 'APPROVED'
+    </select>
+
+    <select id="findStatusByPostIdAndUserId" resultType="string">
+        SELECT status
+        FROM companion_requests
+        WHERE post_id = #{postId}
+          AND user_id = #{userId}
+        LIMIT 1
     </select>
 
 </mapper>

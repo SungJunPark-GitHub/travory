@@ -232,7 +232,7 @@
                     </div>
 
                     <div class="mb-3"
-                         th:if="${session.loginUser != null and session.loginUser.id != post.userId and !applied}">
+                         th:if="${session.loginUser != null and session.loginUser.id != post.userId and companionRequestStatus == null}">
                         <h3 class="h6 fw-bold">동행 신청</h3>
                         <form th:action="@{/posts/{postId}/requests(postId=${post.id})}" method="post">
                             <label for="companionMessage" class="form-label">동행 신청 메시지</label>
@@ -246,8 +246,23 @@
                     </div>
 
                     <div class="alert alert-info"
-                         th:if="${session.loginUser != null and session.loginUser.id != post.userId and applied}">
-                        이미 동행 신청을 보냈습니다.
+                         th:if="${session.loginUser != null and session.loginUser.id != post.userId and companionRequestStatus == 'PENDING'}">
+                        동행 신청을 완료했습니다.
+                        <form th:action="@{/posts/{postId}/requests/cancel(postId=${post.id})}"
+                              method="post"
+                              class="mt-2">
+                            <button type="submit" class="btn btn-sm btn-outline-danger">신청 취소</button>
+                        </form>
+                    </div>
+
+                    <div class="alert alert-success"
+                         th:if="${session.loginUser != null and session.loginUser.id != post.userId and companionRequestStatus == 'APPROVED'}">
+                        동행이 승인되었습니다.
+                    </div>
+
+                    <div class="alert alert-danger"
+                         th:if="${session.loginUser != null and session.loginUser.id != post.userId and companionRequestStatus == 'REJECTED'}">
+                        동행 신청이 거절되었습니다.
                     </div>
 
                     <div th:if="${session.loginUser != null and session.loginUser.id == post.userId}">

@@ -143,6 +143,11 @@ public class PostController {
                 loginUser != null &&
                         companionService.hasRequested(id, loginUser.getId());
 
+        String companionRequestStatus =
+                loginUser != null
+                        ? companionService.getRequestStatus(id, loginUser.getId())
+                        : null;
+
         boolean chatAccessible =
                 loginUser != null &&
                         chatService.canAccessChat(id, loginUser.getId());
@@ -150,6 +155,7 @@ public class PostController {
         model.addAttribute("liked", liked);
         model.addAttribute("favorited", favorited);
         model.addAttribute("applied", applied);
+        model.addAttribute("companionRequestStatus", companionRequestStatus);
         model.addAttribute("chatAccessible", chatAccessible);
 
         return "post/detail";

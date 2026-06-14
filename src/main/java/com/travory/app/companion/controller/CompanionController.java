@@ -37,6 +37,22 @@ public class CompanionController {
         return "redirect:/posts/" + postId;
     }
 
+    @PostMapping("/posts/{postId}/requests/cancel")
+    public String cancel(@PathVariable Long postId,
+                         HttpSession session) {
+
+        UserDto loginUser =
+                (UserDto) session.getAttribute("loginUser");
+
+        if (loginUser == null) {
+            return "redirect:/users/login";
+        }
+
+        companionService.cancelRequest(postId, loginUser.getId());
+
+        return "redirect:/posts/" + postId;
+    }
+
     @GetMapping("/posts/{postId}/requests")
     public String requests(@PathVariable Long postId,
                            HttpSession session,

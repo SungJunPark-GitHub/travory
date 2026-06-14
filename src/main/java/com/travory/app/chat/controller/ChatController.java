@@ -56,6 +56,8 @@ public class ChatController {
         PostDto post =
                 postService.getPostById(postId);
 
+        chatService.markAsRead(postId, loginUser.getId());
+
         model.addAttribute("post", post);
         model.addAttribute("messageList", chatService.getMessages(postId));
 

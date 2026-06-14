@@ -14,4 +14,8 @@ public interface ChatService {
     ChatMessageDto saveMessage(Long postId, Long userId, String content);
 
     List<ChatRoomDto> getChatRooms(Long userId);
+
+    void markAsRead(Long postId, Long userId);
+
+    int countUnreadMessages(Long postId, Long userId);
 }

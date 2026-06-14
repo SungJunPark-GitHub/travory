@@ -62,7 +62,20 @@
             rooms.end_date,
             rooms.role,
             latest.content AS latest_message_content,
-            latest.created_at AS latest_message_created_at
+            latest.created_at AS latest_message_created_at,
+            (
+                SELECT COUNT(*)
+                FROM chat_messages unread
+                         LEFT JOIN chat_read_status crs
+                                   ON crs.post_id = unread.post_id
+                                       AND crs.user_id = #{userId}
+                WHERE unread.post_id = rooms.post_id
+                  AND unread.user_id != #{userId}
+                  AND (
+                      crs.last_read_at IS NULL
+                      OR unread.created_at > crs.last_read_at
+                  )
+            ) AS unread_count
         FROM (
             SELECT
                 p.id AS post_id,
@@ -97,6 +110,45 @@
         ORDER BY
             latest.created_at DESC,
             rooms.post_id DESC
+    </select>
+
+    <insert id="markAsRead">
+        INSERT INTO chat_read_status
+        (
+            post_id,
+            user_id,
+            last_read_at
+        )
+        VALUES
+            (
+                #{postId},
+                #{userId},
+                NOW()
+            )
+        ON DUPLICATE KEY UPDATE
+            last_read_at = VALUES(last_read_at),
+            updated_at = NOW()
+    </insert>
+
+    <select id="countUnreadMessages" resultType="int">
+        SELECT COUNT(*)
+        FROM chat_messages cm
+                 LEFT JOIN chat_read_status crs
+                           ON crs.post_id = cm.post_id
+                               AND crs.user_id = #{userId}
+        WHERE cm.post_id = #{postId}
+          AND cm.user_id != #{userId}
+          AND (
+              crs.last_read_at IS NULL
+              OR cm.created_at > crs.last_read_at
+          )
+    </select>
+
+    <select id="findReadStatus" resultType="int">
+        SELECT COUNT(*)
+        FROM chat_read_status
+        WHERE post_id = #{postId}
+          AND user_id = #{userId}
     </select>
 
 </mapper>

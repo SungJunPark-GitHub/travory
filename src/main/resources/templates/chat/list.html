@@ -27,8 +27,13 @@
                             </div>
                             <h2 class="h5 fw-bold mb-0" th:text="${room.title}"></h2>
                         </div>
-                        <span th:if="${room.role == 'OWNER'}" class="badge bg-primary">OWNER</span>
-                        <span th:if="${room.role == 'COMPANION'}" class="badge bg-success">COMPANION</span>
+                        <div class="d-flex flex-column align-items-end gap-2">
+                            <span th:if="${room.role == 'OWNER'}" class="badge bg-primary">OWNER</span>
+                            <span th:if="${room.role == 'COMPANION'}" class="badge bg-success">COMPANION</span>
+                            <span th:if="${room.unreadCount > 0}"
+                                  class="badge bg-danger"
+                                  th:text="|안 읽음 ${room.unreadCount}|"></span>
+                        </div>
                     </div>
 
                     <div class="small text-muted mb-3">

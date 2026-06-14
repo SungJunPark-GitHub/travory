@@ -76,4 +76,22 @@ public class ChatServiceImpl implements ChatService {
     public List<ChatRoomDto> getChatRooms(Long userId) {
         return chatMapper.findChatRoomsByUserId(userId);
     }
+
+    @Override
+    public void markAsRead(Long postId, Long userId) {
+        if (!canAccessChat(postId, userId)) {
+            return;
+        }
+
+        chatMapper.markAsRead(postId, userId);
+    }
+
+    @Override
+    public int countUnreadMessages(Long postId, Long userId) {
+        if (!canAccessChat(postId, userId)) {
+            return 0;
+        }
+
+        return chatMapper.countUnreadMessages(postId, userId);
+    }
 }

@@ -25,4 +25,6 @@ public class ChatRoomDto {
     private String latestMessageContent;
 
     private LocalDateTime latestMessageCreatedAt;
+
+    private int unreadCount;
 }

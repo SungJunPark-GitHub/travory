@@ -1,5 +1,7 @@
 package com.travory.app.post.service;
 
+import com.travory.app.global.exception.BadRequestException;
+import com.travory.app.global.exception.NotFoundException;
 import com.travory.app.post.dto.PostDto;
 import com.travory.app.post.mapper.PostMapper;
 import lombok.RequiredArgsConstructor;
@@ -47,12 +49,26 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostDto getPostDetail(Long id) {
         postMapper.increaseViewCount(id);
-        return postMapper.findById(id);
+        PostDto post =
+                postMapper.findById(id);
+
+        if (post == null) {
+            throw new NotFoundException("게시글을 찾을 수 없습니다.");
+        }
+
+        return post;
     }
 
     @Override
     public PostDto getPostById(Long id) {
-        return postMapper.findById(id);
+        PostDto post =
+                postMapper.findById(id);
+
+        if (post == null) {
+            throw new NotFoundException("게시글을 찾을 수 없습니다.");
+        }
+
+        return post;
     }
 
     @Override
@@ -63,7 +79,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public void updatePostStatus(Long id, Long userId, String status) {
         if (!POST_STATUSES.contains(status)) {
-            throw new IllegalArgumentException("Invalid post status.");
+            throw new BadRequestException("유효하지 않은 모집 상태입니다.");
         }
 
         postMapper.updatePostStatus(id, userId, status);

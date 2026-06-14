@@ -1,6 +1,7 @@
 package com.travory.app.chat.service;
 
 import com.travory.app.chat.dto.ChatMessageDto;
+import com.travory.app.chat.dto.ChatRoomDto;
 import com.travory.app.chat.mapper.ChatMapper;
 import com.travory.app.companion.service.CompanionService;
 import com.travory.app.post.dto.PostDto;
@@ -69,5 +70,10 @@ public class ChatServiceImpl implements ChatService {
         chatMapper.insertMessage(chatMessage);
 
         return chatMapper.findById(chatMessage.getId());
+    }
+
+    @Override
+    public List<ChatRoomDto> getChatRooms(Long userId) {
+        return chatMapper.findChatRoomsByUserId(userId);
     }
 }

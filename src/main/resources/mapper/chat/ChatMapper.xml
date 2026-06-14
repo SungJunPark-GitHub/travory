@@ -53,4 +53,50 @@
         ORDER BY cm.id ASC
     </select>
 
+    <select id="findChatRoomsByUserId"
+            resultType="com.travory.app.chat.dto.ChatRoomDto">
+        SELECT
+            rooms.post_id,
+            rooms.title,
+            rooms.start_date,
+            rooms.end_date,
+            rooms.role,
+            latest.content AS latest_message_content,
+            latest.created_at AS latest_message_created_at
+        FROM (
+            SELECT
+                p.id AS post_id,
+                p.title,
+                p.start_date,
+                p.end_date,
+                'OWNER' AS role
+            FROM posts p
+            WHERE p.user_id = #{userId}
+
+            UNION
+
+            SELECT
+                p.id AS post_id,
+                p.title,
+                p.start_date,
+                p.end_date,
+                'COMPANION' AS role
+            FROM companion_requests cr
+                     JOIN posts p ON cr.post_id = p.id
+            WHERE cr.user_id = #{userId}
+              AND cr.status = 'APPROVED'
+        ) rooms
+                 LEFT JOIN chat_messages latest
+                           ON latest.id = (
+                               SELECT cm.id
+                               FROM chat_messages cm
+                               WHERE cm.post_id = rooms.post_id
+                               ORDER BY cm.id DESC
+                               LIMIT 1
+                           )
+        ORDER BY
+            latest.created_at DESC,
+            rooms.post_id DESC
+    </select>
+
 </mapper>

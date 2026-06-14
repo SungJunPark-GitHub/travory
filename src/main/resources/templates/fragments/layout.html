@@ -32,6 +32,9 @@
                     <a class="nav-link" href="/mypage/calendar">여행 캘린더</a>
                 </li>
                 <li class="nav-item" th:if="${session.loginUser != null}">
+                    <a class="nav-link" href="/mypage/chats">내 채팅</a>
+                </li>
+                <li class="nav-item" th:if="${session.loginUser != null}">
                     <a class="nav-link" href="/notifications">
                         알림
                         <span th:if="${unreadNotificationCount > 0}"

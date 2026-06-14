@@ -18,6 +18,25 @@ public class ChatController {
     private final ChatService chatService;
     private final PostService postService;
 
+    @GetMapping("/mypage/chats")
+    public String chatRooms(HttpSession session,
+                            Model model) {
+
+        UserDto loginUser =
+                (UserDto) session.getAttribute("loginUser");
+
+        if (loginUser == null) {
+            return "redirect:/users/login";
+        }
+
+        model.addAttribute(
+                "chatRoomList",
+                chatService.getChatRooms(loginUser.getId())
+        );
+
+        return "chat/list";
+    }
+
     @GetMapping("/posts/{postId}/chat")
     public String chat(@PathVariable Long postId,
                        HttpSession session,

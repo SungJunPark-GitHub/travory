@@ -1,6 +1,7 @@
 package com.travory.app.chat.mapper;
 
 import com.travory.app.chat.dto.ChatMessageDto;
+import com.travory.app.chat.dto.ChatRoomDto;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -13,4 +14,6 @@ public interface ChatMapper {
     ChatMessageDto findById(Long id);
 
     List<ChatMessageDto> findByPostId(Long postId);
+
+    List<ChatRoomDto> findChatRoomsByUserId(Long userId);
 }

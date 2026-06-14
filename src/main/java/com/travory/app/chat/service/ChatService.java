@@ -1,6 +1,7 @@
 package com.travory.app.chat.service;
 
 import com.travory.app.chat.dto.ChatMessageDto;
+import com.travory.app.chat.dto.ChatRoomDto;
 
 import java.util.List;
 
@@ -11,4 +12,6 @@ public interface ChatService {
     List<ChatMessageDto> getMessages(Long postId);
 
     ChatMessageDto saveMessage(Long postId, Long userId, String content);
+
+    List<ChatRoomDto> getChatRooms(Long userId);
 }

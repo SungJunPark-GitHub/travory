@@ -1,6 +1,7 @@
 package com.travory.app.post.service;
 
 import com.travory.app.post.dto.PostDto;
+import com.travory.app.user.dto.UserDto;
 
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,8 @@ public interface PostService {
     PostDto getPostDetail(Long id);
 
     PostDto getPostById(Long id);
+
+    UserDto getPostAuthor(Long postId);
 
     void updatePost(PostDto postDto);
 

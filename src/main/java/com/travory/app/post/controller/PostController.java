@@ -2,6 +2,7 @@ package com.travory.app.post.controller;
 
 import com.travory.app.post.dto.PostDto;
 import com.travory.app.post.service.PostService;
+import com.travory.app.chat.service.ChatService;
 import com.travory.app.companion.service.CompanionService;
 import com.travory.app.favorite.service.FavoriteService;
 import com.travory.app.itinerary.service.ItineraryService;
@@ -25,6 +26,7 @@ public class PostController {
     private final FavoriteService favoriteService;
     private final CompanionService companionService;
     private final ItineraryService itineraryService;
+    private final ChatService chatService;
 
     @GetMapping
     public String list(@RequestParam(defaultValue = "1") int page,
@@ -97,6 +99,11 @@ public class PostController {
         );
 
         model.addAttribute(
+                "author",
+                postService.getPostAuthor(id)
+        );
+
+        model.addAttribute(
                 "commentList",
                 commentService.getComments(id)
         );
@@ -136,9 +143,14 @@ public class PostController {
                 loginUser != null &&
                         companionService.hasRequested(id, loginUser.getId());
 
+        boolean chatAccessible =
+                loginUser != null &&
+                        chatService.canAccessChat(id, loginUser.getId());
+
         model.addAttribute("liked", liked);
         model.addAttribute("favorited", favorited);
         model.addAttribute("applied", applied);
+        model.addAttribute("chatAccessible", chatAccessible);
 
         return "post/detail";
     }

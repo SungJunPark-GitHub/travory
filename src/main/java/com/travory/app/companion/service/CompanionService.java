@@ -16,4 +16,6 @@ public interface CompanionService {
     int getParticipantCount(Long postId);
 
     boolean hasRequested(Long postId, Long userId);
+
+    boolean hasApprovedRequest(Long postId, Long userId);
 }

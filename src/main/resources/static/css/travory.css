@@ -1,80 +1,101 @@
 :root {
-    --travory-primary: #0f766e;
-    --travory-primary-dark: #115e59;
-    --travory-accent: #f59e0b;
-    --travory-ink: #172033;
-    --travory-muted: #667085;
-    --travory-soft: #f5fbfa;
-    --travory-line: #d9e4e2;
+    --travory-blue: #2563eb;
+    --travory-blue-dark: #1d4ed8;
+    --travory-ink: #111827;
+    --travory-muted: #6b7280;
+    --travory-line: #e5e7eb;
+    --travory-soft: #f8fafc;
 }
 
 body {
     min-height: 100vh;
     color: var(--travory-ink);
-    background:
-            linear-gradient(180deg, rgba(15, 118, 110, 0.08), rgba(255, 255, 255, 0) 340px),
-            #f8fafc;
+    background: #ffffff;
 }
 
 a {
-    color: var(--travory-primary);
+    color: var(--travory-ink);
+}
+
+a:hover {
+    color: var(--travory-blue);
+}
+
+.navbar {
+    background: #ffffff;
 }
 
 .navbar-brand {
-    color: var(--travory-primary-dark);
+    color: var(--travory-ink);
     letter-spacing: 0;
 }
 
+.navbar .nav-link {
+    color: #374151;
+    font-weight: 600;
+}
+
+.navbar .nav-link:hover {
+    color: var(--travory-blue);
+}
+
 .btn {
-    border-radius: 8px;
+    border-radius: 10px;
+    font-weight: 700;
 }
 
 .btn-primary,
 .btn-success {
-    border-color: var(--travory-primary);
-    background-color: var(--travory-primary);
+    border-color: var(--travory-blue);
+    background-color: var(--travory-blue);
 }
 
 .btn-primary:hover,
 .btn-success:hover {
-    border-color: var(--travory-primary-dark);
-    background-color: var(--travory-primary-dark);
+    border-color: var(--travory-blue-dark);
+    background-color: var(--travory-blue-dark);
 }
 
 .btn-outline-primary,
 .btn-outline-success {
-    color: var(--travory-primary);
-    border-color: var(--travory-primary);
+    color: var(--travory-blue);
+    border-color: var(--travory-blue);
 }
 
 .btn-outline-primary:hover,
 .btn-outline-success:hover {
-    border-color: var(--travory-primary);
-    background-color: var(--travory-primary);
+    color: #ffffff;
+    border-color: var(--travory-blue);
+    background-color: var(--travory-blue);
 }
 
 .page-shell {
-    padding: 48px 0 64px;
+    padding: 42px 0 68px;
+}
+
+.container {
+    max-width: 1120px;
 }
 
 .hero-section {
-    padding: 72px 0;
+    padding: 64px 0;
 }
 
 .hero-panel {
-    max-width: 720px;
+    max-width: 680px;
 }
 
 .eyebrow {
-    color: var(--travory-primary-dark);
-    font-size: 0.85rem;
-    font-weight: 700;
+    color: var(--travory-blue);
+    font-size: 0.82rem;
+    font-weight: 800;
     letter-spacing: 0.08em;
     text-transform: uppercase;
 }
 
 .display-title {
-    font-weight: 800;
+    color: var(--travory-ink);
+    font-weight: 900;
     line-height: 1.08;
 }
 
@@ -82,24 +103,26 @@ a {
     color: var(--travory-muted);
 }
 
-.surface-card {
+.surface-card,
+.card {
     border: 1px solid var(--travory-line);
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.94);
-    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.06);
+    border-radius: 18px;
+    background: #ffffff;
+    box-shadow: 0 8px 24px rgba(17, 24, 39, 0.06);
 }
 
 .stat-card {
     border: 1px solid var(--travory-line);
-    border-radius: 8px;
+    border-radius: 16px;
     background: #ffffff;
     padding: 18px;
 }
 
 .stat-value {
     display: block;
-    font-size: 1.4rem;
-    font-weight: 800;
+    color: var(--travory-ink);
+    font-size: 1.35rem;
+    font-weight: 900;
 }
 
 .stat-label {
@@ -109,33 +132,34 @@ a {
 
 .post-title-link {
     color: var(--travory-ink);
-    font-weight: 700;
+    font-weight: 800;
     text-decoration: none;
 }
 
 .post-title-link:hover {
-    color: var(--travory-primary);
+    color: var(--travory-blue);
 }
 
 .badge-soft {
-    background: var(--travory-soft);
-    color: var(--travory-primary-dark);
+    background: #eef4ff;
+    color: var(--travory-blue);
 }
 
 .form-label {
-    font-weight: 700;
+    color: #374151;
+    font-weight: 800;
 }
 
 .form-control,
 .form-select {
-    border-radius: 8px;
-    border-color: #cfd8dc;
+    border-radius: 12px;
+    border-color: #d1d5db;
 }
 
 .form-control:focus,
 .form-select:focus {
-    border-color: var(--travory-primary);
-    box-shadow: 0 0 0 0.2rem rgba(15, 118, 110, 0.16);
+    border-color: var(--travory-blue);
+    box-shadow: 0 0 0 0.2rem rgba(37, 99, 235, 0.14);
 }
 
 .auth-card {
@@ -152,4 +176,86 @@ a {
     color: var(--travory-muted);
     background: #ffffff;
     padding: 28px 0;
+}
+
+.travel-visual {
+    min-height: 150px;
+    border-radius: 16px;
+    background:
+            linear-gradient(135deg, rgba(37, 99, 235, 0.92), rgba(14, 165, 233, 0.72)),
+            linear-gradient(45deg, #dbeafe, #ffffff);
+    position: relative;
+    overflow: hidden;
+}
+
+.travel-visual::after {
+    content: "";
+    position: absolute;
+    right: -32px;
+    bottom: -40px;
+    width: 150px;
+    height: 150px;
+    border: 28px solid rgba(255, 255, 255, 0.36);
+    border-radius: 999px;
+}
+
+.travel-card {
+    height: 100%;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.travel-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 32px rgba(17, 24, 39, 0.12);
+}
+
+.icon-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 40px;
+    border-radius: 999px;
+}
+
+.side-card {
+    border: 1px solid var(--travory-line);
+    border-radius: 18px;
+    background: #ffffff;
+    padding: 20px;
+}
+
+.profile-avatar {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border: 1px solid var(--travory-line);
+    border-radius: 999px;
+    background: #eef4ff;
+    color: var(--travory-blue);
+    object-fit: cover;
+    font-weight: 900;
+}
+
+.profile-avatar-sm {
+    width: 38px;
+    height: 38px;
+    font-size: 0.9rem;
+}
+
+.profile-avatar-lg {
+    width: 72px;
+    height: 72px;
+    font-size: 1.4rem;
+}
+
+.profile-avatar-placeholder {
+    text-transform: uppercase;
+}
+
+.calendar-day {
+    border: 1px solid var(--travory-line);
+    border-radius: 16px;
+    background: var(--travory-soft);
 }

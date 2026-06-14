@@ -35,6 +35,13 @@
         WHERE user_id = #{userId}
     </select>
 
+    <select id="findById"
+            resultType="com.travory.app.user.dto.UserDto">
+        SELECT *
+        FROM users
+        WHERE id = #{id}
+    </select>
+
     <select id="findByEmail"
             resultType="com.travory.app.user.dto.UserDto">
         SELECT *
@@ -42,5 +49,14 @@
         WHERE email = #{email}
     </select>
 
+    <update id="updateProfile">
+        UPDATE users
+        SET
+            bio = #{bio},
+            travel_style = #{travelStyle},
+            favorite_country = #{favoriteCountry},
+            profile_image = #{profileImage}
+        WHERE id = #{id}
+    </update>
 
 </mapper>

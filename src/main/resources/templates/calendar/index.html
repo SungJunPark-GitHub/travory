@@ -8,6 +8,7 @@
 <main class="page-shell">
     <div class="container">
         <div class="surface-card p-4 p-md-5 mb-4">
+            <div class="travel-visual mb-4"></div>
             <span class="badge badge-soft mb-3">Travel calendar</span>
             <h1 class="h2 fw-bold mb-2">여행 캘린더</h1>
             <p class="lead-muted mb-0">내가 만든 여행과 승인된 동행 일정을 날짜별로 확인하세요.</p>
@@ -24,7 +25,7 @@
 
             <div class="row g-3">
                 <div class="col-md-6 col-xl-4" th:each="entry : ${calendarMap}">
-                    <div class="border rounded p-3 h-100 bg-light">
+                    <div class="calendar-day p-3 h-100">
                         <div class="fw-bold mb-3" th:text="${entry.key}"></div>
 
                         <div class="d-grid gap-2">

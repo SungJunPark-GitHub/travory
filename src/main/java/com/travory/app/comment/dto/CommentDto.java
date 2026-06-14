@@ -18,4 +18,6 @@ public class CommentDto {
     private LocalDateTime createdAt;
 
     private String userName;
+
+    private String profileImage;
 }

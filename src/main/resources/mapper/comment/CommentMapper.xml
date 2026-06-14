@@ -28,7 +28,8 @@
             c.user_id,
             c.content,
             c.created_at,
-            u.user_name
+            u.user_name,
+            u.profile_image
         FROM comments c
                  JOIN users u ON c.user_id = u.id
         WHERE c.post_id = #{postId}

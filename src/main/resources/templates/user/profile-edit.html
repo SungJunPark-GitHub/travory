@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('프로필 수정')}"></head>
+<body>
+
+<div th:replace="~{fragments/layout :: navbar}"></div>
+
+<main class="page-shell">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="surface-card p-4 p-md-5">
+                    <div class="travel-visual mb-4"></div>
+                    <div class="mb-4">
+                        <span class="badge badge-soft mb-3">Profile</span>
+                        <h1 class="h3 fw-bold">프로필 수정</h1>
+                        <p class="lead-muted mb-0">나의 여행 취향과 소개를 채워보세요.</p>
+                    </div>
+
+                    <form action="/mypage/profile/edit" method="post" enctype="multipart/form-data">
+                        <div class="mb-4">
+                            <label class="form-label">프로필 이미지</label>
+                            <div class="d-flex align-items-center gap-3 mb-3">
+                                <img th:if="${user.profileImage != null and user.profileImage != ''}"
+                                     th:src="${user.profileImage}"
+                                     alt="프로필 이미지"
+                                     class="profile-avatar profile-avatar-lg">
+                                <div th:if="${user.profileImage == null or user.profileImage == ''}"
+                                     class="profile-avatar profile-avatar-lg profile-avatar-placeholder">
+                                    <span>T</span>
+                                </div>
+                                <div class="small text-muted">JPG, PNG, GIF, WEBP 파일을 5MB 이하로 업로드할 수 있습니다.</div>
+                            </div>
+                            <input type="file"
+                                   name="profileImageFile"
+                                   class="form-control"
+                                   accept="image/jpeg,image/png,image/gif,image/webp">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">소개</label>
+                            <textarea name="bio" class="form-control" rows="5" th:text="${user.bio}"></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">여행 스타일</label>
+                            <input type="text" name="travelStyle" class="form-control" th:value="${user.travelStyle}">
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">선호 국가</label>
+                            <input type="text" name="favoriteCountry" class="form-control" th:value="${user.favoriteCountry}">
+                        </div>
+
+                        <div class="d-flex flex-wrap gap-2">
+                            <button type="submit" class="btn btn-primary">저장</button>
+                            <a href="/mypage" class="btn btn-outline-secondary">취소</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+
+</body>
+</html>

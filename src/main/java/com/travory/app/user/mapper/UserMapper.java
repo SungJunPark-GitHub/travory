@@ -10,7 +10,10 @@ public interface UserMapper {
 
     UserDto findByUserId(String userId);
 
+    UserDto findById(Long id);
+
     UserDto findByEmail(String email);
 
+    void updateProfile(UserDto userDto);
 
 }

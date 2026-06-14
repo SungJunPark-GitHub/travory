@@ -2,6 +2,7 @@ package com.travory.app.global.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -33,6 +34,14 @@ public class GlobalExceptionHandler {
                                    Model model) {
 
         model.addAttribute("message", e.getMessage());
+        return "error/400";
+    }
+
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String handleMaxUploadSizeExceeded(Model model) {
+
+        model.addAttribute("message", "업로드 파일은 5MB 이하만 사용할 수 있습니다.");
         return "error/400";
     }
 

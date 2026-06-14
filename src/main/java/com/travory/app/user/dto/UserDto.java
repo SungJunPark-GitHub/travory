@@ -19,5 +19,8 @@ public class UserDto {
     private String phoneNumber;
     private String profileImage;
     private String email;
+    private String bio;
+    private String travelStyle;
+    private String favoriteCountry;
     private LocalDateTime createdAt;
 }

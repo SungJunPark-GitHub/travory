@@ -37,6 +37,18 @@
         ORDER BY cr.id DESC
     </select>
 
+    <select id="findById" resultType="map">
+        SELECT
+            id,
+            post_id,
+            user_id,
+            message,
+            status,
+            created_at
+        FROM companion_requests
+        WHERE id = #{id}
+    </select>
+
     <update id="updateStatus">
         UPDATE companion_requests
         SET status = #{status}
@@ -56,6 +68,14 @@
         FROM companion_requests
         WHERE post_id = #{postId}
           AND user_id = #{userId}
+    </select>
+
+    <select id="existsApprovedByPostIdAndUserId" resultType="int">
+        SELECT COUNT(*)
+        FROM companion_requests
+        WHERE post_id = #{postId}
+          AND user_id = #{userId}
+          AND status = 'APPROVED'
     </select>
 
 </mapper>

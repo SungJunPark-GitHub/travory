@@ -11,7 +11,7 @@
       <div>
         <span class="badge badge-soft mb-3">Travel boards</span>
         <h1 class="h2 fw-bold mb-2">동행 모집 목록</h1>
-        <p class="lead-muted mb-0">일정과 취향이 맞는 여행 동행을 찾아보세요.</p>
+        <p class="lead-muted mb-0">마음에 드는 여행 카드를 골라 동행을 만나보세요.</p>
       </div>
       <div class="d-flex gap-2">
         <a href="/" class="btn btn-outline-secondary">홈</a>
@@ -44,47 +44,41 @@
       </div>
     </form>
 
-    <div class="surface-card overflow-hidden">
-      <div class="table-responsive">
-        <table class="table table-hover align-middle mb-0">
-          <thead class="table-light">
-          <tr>
-            <th>ID</th>
-            <th>제목</th>
-            <th>작성자</th>
-            <th>상태</th>
-            <th>기간</th>
-            <th>모집인원</th>
-            <th>조회수</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr th:each="post : ${postList}">
-            <td class="text-muted" th:text="${post.id}"></td>
-            <td>
-              <a class="post-title-link"
-                 th:href="@{/posts/{id}(id=${post.id})}"
-                 th:text="${post.title}"></a>
-            </td>
-            <td th:text="${post.user_name}"></td>
-            <td>
-              <span th:if="${post.status == 'OPEN'}" class="badge bg-success">모집중</span>
+    <div class="row g-4">
+      <div class="col-md-6 col-xl-4" th:each="post : ${postList}">
+        <article class="surface-card travel-card p-3">
+          <a th:href="@{/posts/{id}(id=${post.id})}" class="text-decoration-none">
+            <div class="travel-visual mb-3"></div>
+          </a>
+
+          <div class="d-flex justify-content-between align-items-start gap-2 mb-2">
+            <a class="post-title-link h5 mb-0"
+               th:href="@{/posts/{id}(id=${post.id})}"
+               th:text="${post.title}"></a>
+            <div>
+              <span th:if="${post.status == 'OPEN'}" class="badge bg-primary">모집중</span>
               <span th:if="${post.status == 'CLOSED'}" class="badge bg-secondary">모집완료</span>
               <span th:if="${post.status == 'FINISHED'}" class="badge bg-dark">여행종료</span>
-            </td>
-            <td>
-              <span th:text="${post.start_date}"></span>
-              ~
-              <span th:text="${post.end_date}"></span>
-            </td>
-            <td>
-              <span th:text="${post.max_people}"></span>
-              <span class="text-muted">명</span>
-            </td>
-            <td th:text="${post.view_count}"></td>
-          </tr>
-          </tbody>
-        </table>
+            </div>
+          </div>
+
+          <div class="small text-muted mb-3">
+            <span th:text="${post.user_name}"></span>
+            <span class="mx-1">·</span>
+            <span th:text="${post.start_date}"></span>
+            <span>~</span>
+            <span th:text="${post.end_date}"></span>
+          </div>
+
+          <div class="d-flex justify-content-between text-muted small">
+            <span>
+              모집 <span th:text="${post.max_people}"></span>명
+            </span>
+            <span>
+              조회 <span th:text="${post.view_count}"></span>
+            </span>
+          </div>
+        </article>
       </div>
     </div>
 

@@ -15,6 +15,8 @@ public interface CompanionMapper {
 
     List<Map<String, Object>> findByPostId(Long postId);
 
+    Map<String, Object> findById(Long id);
+
     void updateStatus(@Param("id") Long id,
                       @Param("postId") Long postId,
                       @Param("status") String status);
@@ -23,4 +25,7 @@ public interface CompanionMapper {
 
     int existsByPostIdAndUserId(@Param("postId") Long postId,
                                 @Param("userId") Long userId);
+
+    int existsApprovedByPostIdAndUserId(@Param("postId") Long postId,
+                                        @Param("userId") Long userId);
 }

@@ -1,0 +1,14 @@
+package com.travory.app.chat.service;
+
+import com.travory.app.chat.dto.ChatMessageDto;
+
+import java.util.List;
+
+public interface ChatService {
+
+    boolean canAccessChat(Long postId, Long userId);
+
+    List<ChatMessageDto> getMessages(Long postId);
+
+    ChatMessageDto saveMessage(Long postId, Long userId, String content);
+}

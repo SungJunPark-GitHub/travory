@@ -9,7 +9,7 @@
 </head>
 <body>
 
-<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-light bg-white border-bottom sticky-top">
+<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-light border-bottom sticky-top">
     <div class="container">
         <a class="navbar-brand fw-bold" href="/">Travory</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#travoryNavbar"
@@ -30,6 +30,14 @@
                 </li>
                 <li class="nav-item" th:if="${session.loginUser != null}">
                     <a class="nav-link" href="/mypage/calendar">여행 캘린더</a>
+                </li>
+                <li class="nav-item" th:if="${session.loginUser != null}">
+                    <a class="nav-link" href="/notifications">
+                        알림
+                        <span th:if="${unreadNotificationCount > 0}"
+                              class="badge bg-primary"
+                              th:text="${unreadNotificationCount}"></span>
+                    </a>
                 </li>
             </ul>
 

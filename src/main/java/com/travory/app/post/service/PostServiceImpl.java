@@ -4,6 +4,8 @@ import com.travory.app.global.exception.BadRequestException;
 import com.travory.app.global.exception.NotFoundException;
 import com.travory.app.post.dto.PostDto;
 import com.travory.app.post.mapper.PostMapper;
+import com.travory.app.user.dto.UserDto;
+import com.travory.app.user.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,7 @@ public class PostServiceImpl implements PostService {
             List.of("latest", "view", "like");
 
     private final PostMapper postMapper;
+    private final UserMapper userMapper;
 
     @Override
     public void createPost(PostDto postDto) {
@@ -69,6 +72,14 @@ public class PostServiceImpl implements PostService {
         }
 
         return post;
+    }
+
+    @Override
+    public UserDto getPostAuthor(Long postId) {
+        PostDto post =
+                getPostById(postId);
+
+        return userMapper.findById(post.getUserId());
     }
 
     @Override

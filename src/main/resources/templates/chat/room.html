@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('채팅')}"></head>
+<body>
+
+<div th:replace="~{fragments/layout :: navbar}"></div>
+
+<main class="page-shell">
+    <div class="container">
+        <div class="surface-card p-4 p-md-5 mb-4">
+            <span class="badge badge-soft mb-3">Chat room</span>
+            <h1 class="h3 fw-bold mb-2" th:text="${post.title}"></h1>
+            <p class="lead-muted mb-0">승인된 동행과 여행 이야기를 나눠보세요.</p>
+        </div>
+
+        <div class="surface-card p-4">
+            <div id="chatMessages" class="d-grid gap-3 mb-4">
+                <div class="p-3 bg-light rounded" th:each="message : ${messageList}">
+                    <div class="d-flex gap-3">
+                        <img th:if="${message.profileImage != null and message.profileImage != ''}"
+                             th:src="${message.profileImage}"
+                             alt="프로필 이미지"
+                             class="profile-avatar profile-avatar-sm">
+                        <div th:if="${message.profileImage == null or message.profileImage == ''}"
+                             class="profile-avatar profile-avatar-sm profile-avatar-placeholder">
+                            <span>T</span>
+                        </div>
+                        <div class="flex-grow-1">
+                            <div class="d-flex justify-content-between gap-3 mb-1">
+                                <strong th:text="${message.userName}"></strong>
+                                <span class="small text-muted" th:text="${message.createdAt}"></span>
+                            </div>
+                            <div class="content-box" th:text="${message.content}"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <form id="chatForm" class="d-flex gap-2">
+                <input type="text"
+                       id="messageInput"
+                       class="form-control"
+                       maxlength="1000"
+                       placeholder="메시지를 입력하세요">
+                <button type="submit" class="btn btn-primary">전송</button>
+            </form>
+        </div>
+    </div>
+</main>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+<script th:inline="javascript">
+    const postId = [[${post.id}]];
+    const socket = new SockJS('/ws');
+    const stompClient = Stomp.over(socket);
+
+    stompClient.connect({}, function () {
+        stompClient.subscribe('/topic/posts/' + postId + '/chat', function (message) {
+            const body = JSON.parse(message.body);
+            appendMessage(body);
+        });
+    });
+
+    document.getElementById('chatForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        const input = document.getElementById('messageInput');
+        const content = input.value.trim();
+
+        if (!content || content.length > 1000) {
+            return;
+        }
+
+        stompClient.send(
+            '/app/posts/' + postId + '/chat',
+            {},
+            JSON.stringify({content: content})
+        );
+
+        input.value = '';
+    });
+
+    function appendMessage(message) {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'p-3 bg-light rounded';
+
+        const row = document.createElement('div');
+        row.className = 'd-flex gap-3';
+
+        const avatar = createAvatar(message);
+
+        const body = document.createElement('div');
+        body.className = 'flex-grow-1';
+
+        const header = document.createElement('div');
+        header.className = 'd-flex justify-content-between gap-3 mb-1';
+
+        const name = document.createElement('strong');
+        name.textContent = message.userName;
+
+        const createdAt = document.createElement('span');
+        createdAt.className = 'small text-muted';
+        createdAt.textContent = message.createdAt;
+
+        const content = document.createElement('div');
+        content.className = 'content-box';
+        content.textContent = message.content;
+
+        header.appendChild(name);
+        header.appendChild(createdAt);
+        body.appendChild(header);
+        body.appendChild(content);
+        row.appendChild(avatar);
+        row.appendChild(body);
+        wrapper.appendChild(row);
+
+        document.getElementById('chatMessages').appendChild(wrapper);
+    }
+
+    function createAvatar(message) {
+        if (message.profileImage) {
+            const image = document.createElement('img');
+            image.className = 'profile-avatar profile-avatar-sm';
+            image.alt = '프로필 이미지';
+            image.src = message.profileImage;
+            return image;
+        }
+
+        const placeholder = document.createElement('div');
+        placeholder.className = 'profile-avatar profile-avatar-sm profile-avatar-placeholder';
+        placeholder.textContent = message.userName ? message.userName.substring(0, 1) : 'T';
+        return placeholder;
+    }
+</script>
+
+</body>
+</html>

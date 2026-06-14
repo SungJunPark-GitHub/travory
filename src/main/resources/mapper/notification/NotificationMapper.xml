@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.travory.app.notification.mapper.NotificationMapper">
+
+    <insert id="insertNotification">
+        INSERT INTO notifications
+        (
+            user_id,
+            type,
+            message,
+            target_url
+        )
+        VALUES
+            (
+                #{userId},
+                #{type},
+                #{message},
+                #{targetUrl}
+            )
+    </insert>
+
+    <select id="findByUserId"
+            resultType="com.travory.app.notification.dto.NotificationDto">
+        SELECT
+            id,
+            user_id,
+            type,
+            message,
+            target_url,
+            is_read,
+            created_at
+        FROM notifications
+        WHERE user_id = #{userId}
+        ORDER BY id DESC
+    </select>
+
+    <select id="countUnreadByUserId" resultType="int">
+        SELECT COUNT(*)
+        FROM notifications
+        WHERE user_id = #{userId}
+          AND is_read = false
+    </select>
+
+    <update id="markAsRead">
+        UPDATE notifications
+        SET is_read = true
+        WHERE id = #{id}
+          AND user_id = #{userId}
+    </update>
+
+    <update id="markAllAsRead">
+        UPDATE notifications
+        SET is_read = true
+        WHERE user_id = #{userId}
+    </update>
+
+</mapper>

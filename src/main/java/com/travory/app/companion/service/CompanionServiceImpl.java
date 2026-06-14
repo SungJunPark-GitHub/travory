@@ -1,6 +1,7 @@
 package com.travory.app.companion.service;
 
 import com.travory.app.companion.mapper.CompanionMapper;
+import com.travory.app.notification.service.NotificationService;
 import com.travory.app.post.dto.PostDto;
 import com.travory.app.post.mapper.PostMapper;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,7 @@ public class CompanionServiceImpl implements CompanionService {
 
     private final CompanionMapper companionMapper;
     private final PostMapper postMapper;
+    private final NotificationService notificationService;
 
     @Override
     public void requestCompanion(Long postId, Long userId, String message) {
@@ -30,6 +32,14 @@ public class CompanionServiceImpl implements CompanionService {
 
         if (!hasRequested(postId, userId)) {
             companionMapper.insertRequest(postId, userId, message);
+
+            notificationService.createNotification(
+                    post.getUserId(),
+                    userId,
+                    "COMPANION_REQUEST",
+                    "새로운 동행 신청이 도착했습니다.",
+                    "/posts/" + postId + "/requests"
+            );
         }
     }
 
@@ -62,6 +72,11 @@ public class CompanionServiceImpl implements CompanionService {
         return companionMapper.existsByPostIdAndUserId(postId, userId) > 0;
     }
 
+    @Override
+    public boolean hasApprovedRequest(Long postId, Long userId) {
+        return companionMapper.existsApprovedByPostIdAndUserId(postId, userId) > 0;
+    }
+
     private void updateRequestStatus(Long postId,
                                      Long requestId,
                                      Long ownerId,
@@ -72,6 +87,29 @@ public class CompanionServiceImpl implements CompanionService {
         }
 
         companionMapper.updateStatus(requestId, postId, status);
+
+        Map<String, Object> request =
+                companionMapper.findById(requestId);
+
+        if (request == null) {
+            return;
+        }
+
+        Long applicantId =
+                ((Number) request.get("user_id")).longValue();
+
+        String message =
+                "APPROVED".equals(status)
+                        ? "동행 신청이 승인되었습니다."
+                        : "동행 신청이 거절되었습니다.";
+
+        notificationService.createNotification(
+                applicantId,
+                ownerId,
+                "COMPANION_" + status,
+                message,
+                "/posts/" + postId
+        );
     }
 
     private boolean isPostOwner(Long postId, Long ownerId) {

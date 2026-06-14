@@ -14,6 +14,8 @@ public class PostServiceImpl implements PostService {
 
     private static final List<String> POST_STATUSES =
             List.of("OPEN", "CLOSED", "FINISHED");
+    private static final List<String> SORT_TYPES =
+            List.of("latest", "view", "like");
 
     private final PostMapper postMapper;
 
@@ -23,14 +25,23 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<Map<String, Object>> getPostList(String keyword, int page, int size) {
+    public List<Map<String, Object>> getPostList(String keyword, String sort, int page, int size) {
         int offset = (page - 1) * size;
-        return postMapper.findPostsPaged(keyword, offset, size);
+        return postMapper.findPostsPaged(keyword, getSortType(sort), offset, size);
     }
 
     @Override
     public int countPosts(String keyword) {
         return postMapper.countPosts(keyword);
+    }
+
+    @Override
+    public String getSortType(String sort) {
+        if (SORT_TYPES.contains(sort)) {
+            return sort;
+        }
+
+        return "latest";
     }
 
     @Override

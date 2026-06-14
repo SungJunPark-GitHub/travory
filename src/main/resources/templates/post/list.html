@@ -29,6 +29,13 @@
                  th:value="${keyword}">
         </div>
         <div class="col-md-auto">
+          <select name="sort" class="form-select">
+            <option value="latest" th:selected="${sort == 'latest'}">최신순</option>
+            <option value="view" th:selected="${sort == 'view'}">조회순</option>
+            <option value="like" th:selected="${sort == 'like'}">좋아요순</option>
+          </select>
+        </div>
+        <div class="col-md-auto">
           <button type="submit" class="btn btn-primary w-100">검색</button>
         </div>
         <div class="col-md-auto">
@@ -84,19 +91,19 @@
     <nav th:if="${totalPages > 1}" class="mt-4" aria-label="Post pagination">
       <ul class="pagination justify-content-center">
         <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
-          <a class="page-link" th:href="@{/posts(page=${currentPage - 1}, keyword=${keyword})}">Previous</a>
+          <a class="page-link" th:href="@{/posts(page=${currentPage - 1}, keyword=${keyword}, sort=${sort})}">Previous</a>
         </li>
 
         <li class="page-item"
             th:each="pageNumber : ${#numbers.sequence(startPage, endPage)}"
             th:classappend="${pageNumber == currentPage} ? 'active'">
           <a class="page-link"
-             th:href="@{/posts(page=${pageNumber}, keyword=${keyword})}"
+             th:href="@{/posts(page=${pageNumber}, keyword=${keyword}, sort=${sort})}"
              th:text="${pageNumber}"></a>
         </li>
 
         <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
-          <a class="page-link" th:href="@{/posts(page=${currentPage + 1}, keyword=${keyword})}">Next</a>
+          <a class="page-link" th:href="@{/posts(page=${currentPage + 1}, keyword=${keyword}, sort=${sort})}">Next</a>
         </li>
       </ul>
     </nav>

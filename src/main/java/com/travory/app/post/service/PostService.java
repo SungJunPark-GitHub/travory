@@ -9,9 +9,11 @@ public interface PostService {
 
     void createPost(PostDto postDto);
 
-    List<Map<String, Object>> getPostList(String keyword, int page, int size);
+    List<Map<String, Object>> getPostList(String keyword, String sort, int page, int size);
 
     int countPosts(String keyword);
+
+    String getSortType(String sort);
 
     PostDto getPostDetail(Long id);
 

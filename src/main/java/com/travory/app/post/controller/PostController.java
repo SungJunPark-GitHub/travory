@@ -27,9 +27,11 @@ public class PostController {
     @GetMapping
     public String list(@RequestParam(defaultValue = "1") int page,
                        @RequestParam(required = false) String keyword,
+                       @RequestParam(defaultValue = "latest") String sort,
                        Model model) {
 
         String searchKeyword = keyword == null ? null : keyword.trim();
+        String sortType = postService.getSortType(sort);
         int currentPage = Math.max(page, 1);
         int size = 10;
         int totalPosts = postService.countPosts(searchKeyword);
@@ -48,8 +50,9 @@ public class PostController {
         startPage = Math.max(endPage - 4, 1);
 
         model.addAttribute("postList",
-                postService.getPostList(searchKeyword, currentPage, size));
+                postService.getPostList(searchKeyword, sortType, currentPage, size));
         model.addAttribute("keyword", searchKeyword);
+        model.addAttribute("sort", sortType);
         model.addAttribute("currentPage", currentPage);
         model.addAttribute("totalPages", totalPages);
         model.addAttribute("startPage", startPage);

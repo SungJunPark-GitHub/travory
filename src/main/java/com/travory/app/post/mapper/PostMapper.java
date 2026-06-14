@@ -23,6 +23,7 @@ public interface PostMapper {
     List<Map<String, Object>> findAllWithUser();
 
     List<Map<String, Object>> findPostsPaged(@Param("keyword") String keyword,
+                                             @Param("sort") String sort,
                                              @Param("offset") int offset,
                                              @Param("size") int size);
 

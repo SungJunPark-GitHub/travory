@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('여행 캘린더')}"></head>
+<body>
+
+<div th:replace="~{fragments/layout :: navbar}"></div>
+
+<main class="page-shell">
+    <div class="container">
+        <div class="surface-card p-4 p-md-5 mb-4">
+            <span class="badge badge-soft mb-3">Travel calendar</span>
+            <h1 class="h2 fw-bold mb-2">여행 캘린더</h1>
+            <p class="lead-muted mb-0">내가 만든 여행과 승인된 동행 일정을 날짜별로 확인하세요.</p>
+        </div>
+
+        <div th:if="${#maps.isEmpty(calendarMap)}" class="surface-card p-5 text-center">
+            <h2 class="h5 fw-bold">등록된 여행 일정이 없습니다.</h2>
+            <p class="lead-muted mb-4">모집글을 만들거나 동행 신청이 승인되면 이곳에 표시됩니다.</p>
+            <a href="/posts" class="btn btn-primary">동행 모집 보기</a>
+        </div>
+
+        <section th:if="${!#maps.isEmpty(calendarMap)}" class="surface-card p-4 mb-4">
+            <h2 class="h4 fw-bold mb-3">월간 일정</h2>
+
+            <div class="row g-3">
+                <div class="col-md-6 col-xl-4" th:each="entry : ${calendarMap}">
+                    <div class="border rounded p-3 h-100 bg-light">
+                        <div class="fw-bold mb-3" th:text="${entry.key}"></div>
+
+                        <div class="d-grid gap-2">
+                            <a th:each="post : ${entry.value}"
+                               th:href="@{/posts/{id}(id=${post.postId})}"
+                               class="text-decoration-none">
+                                <div class="surface-card p-3 shadow-none">
+                                    <div class="d-flex justify-content-between gap-2 mb-2">
+                                        <strong class="post-title-link" th:text="${post.title}"></strong>
+                                        <span th:if="${post.role == 'OWNER'}" class="badge bg-primary">OWNER</span>
+                                        <span th:if="${post.role == 'COMPANION'}" class="badge bg-success">COMPANION</span>
+                                    </div>
+                                    <div class="small text-muted">
+                                        <span th:text="${post.startDate}"></span>
+                                        ~
+                                        <span th:text="${post.endDate}"></span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section th:if="${!#lists.isEmpty(calendarPosts)}" class="surface-card p-4">
+            <h2 class="h4 fw-bold mb-3">전체 여행 목록</h2>
+
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                    <tr>
+                        <th>여행</th>
+                        <th>기간</th>
+                        <th>상태</th>
+                        <th>역할</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="post : ${calendarPosts}">
+                        <td>
+                            <a class="post-title-link"
+                               th:href="@{/posts/{id}(id=${post.postId})}"
+                               th:text="${post.title}"></a>
+                        </td>
+                        <td>
+                            <span th:text="${post.startDate}"></span>
+                            ~
+                            <span th:text="${post.endDate}"></span>
+                        </td>
+                        <td>
+                            <span th:if="${post.status == 'OPEN'}" class="badge bg-success">모집중</span>
+                            <span th:if="${post.status == 'CLOSED'}" class="badge bg-secondary">모집완료</span>
+                            <span th:if="${post.status == 'FINISHED'}" class="badge bg-dark">여행종료</span>
+                        </td>
+                        <td>
+                            <span th:if="${post.role == 'OWNER'}" class="badge bg-primary">OWNER</span>
+                            <span th:if="${post.role == 'COMPANION'}" class="badge bg-success">COMPANION</span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+</main>
+
+<div th:replace="~{fragments/layout :: footer}"></div>
+
+</body>
+</html>

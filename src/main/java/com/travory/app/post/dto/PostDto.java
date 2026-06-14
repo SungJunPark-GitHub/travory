@@ -34,5 +34,7 @@ public class PostDto {
 
     private String isPublic;
 
+    private String imagePath;
+
     private LocalDateTime createdAt;
 }

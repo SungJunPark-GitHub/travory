@@ -17,7 +17,16 @@
             <p class="lead-muted mb-0">여행 일정과 예산을 공유하고 함께 떠날 동행을 모집하세요.</p>
           </div>
 
-          <form action="/posts/create" method="post" class="form-section">
+          <form action="/posts/create" method="post" enctype="multipart/form-data" class="form-section">
+            <div class="mb-3">
+              <label class="form-label">대표 이미지</label>
+              <input type="file"
+                     name="imageFile"
+                     class="form-control"
+                     accept="image/jpeg,image/png,image/gif,image/webp">
+              <div class="small text-muted mt-1">JPG, PNG, GIF, WEBP 파일을 5MB 이하로 업로드할 수 있습니다.</div>
+            </div>
+
             <div class="mb-3">
               <label class="form-label">제목</label>
               <input type="text" name="title" class="form-control">

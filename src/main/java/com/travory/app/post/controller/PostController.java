@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.travory.app.comment.service.CommentService;
 
@@ -72,6 +73,8 @@ public class PostController {
 
     @PostMapping("/create")
     public String create(PostDto postDto,
+                         @RequestParam(value = "imageFile", required = false)
+                         MultipartFile imageFile,
                          HttpSession session) {
 
         UserDto loginUser =
@@ -83,7 +86,7 @@ public class PostController {
 
         postDto.setUserId(loginUser.getId());
 
-        postService.createPost(postDto);
+        postService.createPost(postDto, imageFile);
 
         return "redirect:/posts";
     }
@@ -186,6 +189,8 @@ public class PostController {
     @PostMapping("/{id}/edit")
     public String edit(@PathVariable Long id,
                        PostDto postDto,
+                       @RequestParam(value = "imageFile", required = false)
+                       MultipartFile imageFile,
                        HttpSession session) {
 
         UserDto loginUser = (UserDto) session.getAttribute("loginUser");
@@ -197,7 +202,7 @@ public class PostController {
         postDto.setId(id);
         postDto.setUserId(loginUser.getId());
 
-        postService.updatePost(postDto);
+        postService.updatePost(postDto, imageFile);
 
         return "redirect:/posts/" + id;
     }

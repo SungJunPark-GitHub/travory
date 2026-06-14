@@ -48,7 +48,15 @@
       <div class="col-md-6 col-xl-4" th:each="post : ${postList}">
         <article class="surface-card travel-card p-3">
           <a th:href="@{/posts/{id}(id=${post.id})}" class="text-decoration-none">
-            <div class="travel-visual mb-3"></div>
+            <img th:if="${post['imagePath'] != null and post['imagePath'] != ''}"
+                 th:src="${post['imagePath']}"
+                 alt="대표 이미지"
+                 class="post-card-image mb-3">
+
+            <div th:if="${post['imagePath'] == null or post['imagePath'] == ''}"
+                 class="post-image-placeholder post-card-image mb-3">
+              <span>Travel</span>
+            </div>
           </a>
 
           <div class="d-flex justify-content-between align-items-start gap-2 mb-2">

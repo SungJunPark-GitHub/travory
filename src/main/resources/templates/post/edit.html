@@ -17,7 +17,26 @@
                         <p class="lead-muted mb-0">모집 내용과 여행 정보를 최신 상태로 정리하세요.</p>
                     </div>
 
-                    <form th:action="@{/posts/{id}/edit(id=${post.id})}" method="post" class="form-section">
+                    <form th:action="@{/posts/{id}/edit(id=${post.id})}" method="post" enctype="multipart/form-data" class="form-section">
+                        <div class="mb-3">
+                            <label class="form-label">대표 이미지</label>
+                            <div class="mb-3">
+                                <img th:if="${post.imagePath != null and post.imagePath != ''}"
+                                     th:src="${post.imagePath}"
+                                     alt="대표 이미지"
+                                     class="post-image-preview">
+                                <div th:if="${post.imagePath == null or post.imagePath == ''}"
+                                     class="post-image-placeholder post-image-preview">
+                                    <span>Travel</span>
+                                </div>
+                            </div>
+                            <input type="file"
+                                   name="imageFile"
+                                   class="form-control"
+                                   accept="image/jpeg,image/png,image/gif,image/webp">
+                            <div class="small text-muted mt-1">새 이미지를 선택하면 기존 대표 이미지가 변경됩니다.</div>
+                        </div>
+
                         <div class="mb-3">
                             <label class="form-label">제목</label>
                             <input type="text" name="title" class="form-control" th:value="${post.title}">

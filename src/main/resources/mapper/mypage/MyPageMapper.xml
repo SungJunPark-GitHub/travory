@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.travory.app.mypage.mapper.MyPageMapper">
+
+    <select id="findPostsByUserId" resultType="map">
+        SELECT
+            p.id,
+            p.title,
+            p.start_date,
+            p.end_date,
+            p.max_people,
+            p.view_count,
+            p.status,
+            p.created_at
+        FROM posts p
+        WHERE p.user_id = #{userId}
+        ORDER BY p.id DESC
+    </select>
+
+    <select id="findFavoritePostsByUserId" resultType="map">
+        SELECT
+            p.id,
+            p.title,
+            p.start_date,
+            p.end_date,
+            p.max_people,
+            p.view_count,
+            p.status,
+            p.created_at,
+            u.user_name,
+            f.created_at AS favorited_at
+        FROM favorites f
+                 JOIN posts p ON f.post_id = p.id
+                 JOIN users u ON p.user_id = u.id
+        WHERE f.user_id = #{userId}
+        ORDER BY f.id DESC
+    </select>
+
+    <select id="findCompanionRequestsByUserId" resultType="map">
+        SELECT
+            cr.id,
+            cr.post_id,
+            cr.message,
+            cr.status,
+            cr.created_at,
+            p.title,
+            p.start_date,
+            p.end_date,
+            u.user_name AS post_owner_name
+        FROM companion_requests cr
+                 JOIN posts p ON cr.post_id = p.id
+                 JOIN users u ON p.user_id = u.id
+        WHERE cr.user_id = #{userId}
+        ORDER BY cr.id DESC
+    </select>
+
+</mapper>

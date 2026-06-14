@@ -25,6 +25,9 @@
                 <li class="nav-item" th:if="${session.loginUser != null}">
                     <a class="nav-link" href="/favorites">내 북마크</a>
                 </li>
+                <li class="nav-item" th:if="${session.loginUser != null}">
+                    <a class="nav-link" href="/mypage">마이페이지</a>
+                </li>
             </ul>
 
             <div class="d-flex align-items-center gap-2">

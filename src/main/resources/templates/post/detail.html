@@ -80,6 +80,37 @@
 
                 <section class="surface-card p-4 mt-4">
                     <div class="d-flex align-items-center justify-content-between mb-3">
+                        <h2 class="h4 fw-bold mb-0">여행 일정</h2>
+                    </div>
+
+                    <div th:if="${#lists.isEmpty(itineraryDays)}" class="alert alert-secondary mb-0">
+                        아직 등록된 여행 일정이 없습니다.
+                    </div>
+
+                    <div class="row g-3" th:if="${!#lists.isEmpty(itineraryDays)}">
+                        <div class="col-md-6" th:each="day : ${itineraryDays}">
+                            <div class="p-3 bg-light rounded h-100">
+                                <h3 class="h5 fw-bold">
+                                    Day <span th:text="${day.dayNumber}"></span>
+                                </h3>
+
+                                <div th:if="${#lists.isEmpty(day.itemList)}" class="text-muted">
+                                    등록된 일정 항목이 없습니다.
+                                </div>
+
+                                <ol class="mb-0" th:if="${!#lists.isEmpty(day.itemList)}">
+                                    <li class="mb-2" th:each="item : ${day.itemList}">
+                                        <strong th:text="${item.placeName}"></strong>
+                                        <p class="mb-0 text-muted content-box" th:text="${item.memo}"></p>
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="surface-card p-4 mt-4">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
                         <h2 class="h4 fw-bold mb-0">댓글</h2>
                     </div>
 
@@ -183,6 +214,7 @@
                         </form>
 
                         <div class="d-grid gap-2">
+                            <a th:href="@{/posts/{id}/itinerary(id=${post.id})}" class="btn btn-outline-primary">여행 일정 관리</a>
                             <a th:href="@{/posts/{id}/requests(id=${post.id})}" class="btn btn-outline-primary">동행 신청 관리</a>
                             <a th:href="@{/posts/{id}/edit(id=${post.id})}" class="btn btn-warning">수정</a>
                         </div>

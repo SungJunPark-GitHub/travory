@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.travory.app.itinerary.mapper.ItineraryMapper">
+
+    <select id="findDaysByPostId"
+            resultType="com.travory.app.itinerary.dto.ItineraryDayDto">
+        SELECT
+            id,
+            post_id,
+            day_number,
+            created_at
+        FROM itinerary_days
+        WHERE post_id = #{postId}
+        ORDER BY day_number ASC
+    </select>
+
+    <select id="findDayById"
+            resultType="com.travory.app.itinerary.dto.ItineraryDayDto">
+        SELECT
+            id,
+            post_id,
+            day_number,
+            created_at
+        FROM itinerary_days
+        WHERE id = #{id}
+    </select>
+
+    <select id="findMaxDayNumber" resultType="int">
+        SELECT MAX(day_number)
+        FROM itinerary_days
+        WHERE post_id = #{postId}
+    </select>
+
+    <insert id="insertDay">
+        INSERT INTO itinerary_days
+        (
+            post_id,
+            day_number
+        )
+        VALUES
+            (
+                #{postId},
+                #{dayNumber}
+            )
+    </insert>
+
+    <select id="findItemsByDayId"
+            resultType="com.travory.app.itinerary.dto.ItineraryItemDto">
+        SELECT
+            id,
+            day_id,
+            place_name,
+            memo,
+            order_number,
+            created_at
+        FROM itinerary_items
+        WHERE day_id = #{dayId}
+        ORDER BY order_number ASC, id ASC
+    </select>
+
+    <insert id="insertItem">
+        INSERT INTO itinerary_items
+        (
+            day_id,
+            place_name,
+            memo,
+            order_number
+        )
+        VALUES
+            (
+                #{dayId},
+                #{placeName},
+                #{memo},
+                #{orderNumber}
+            )
+    </insert>
+
+    <delete id="deleteItem">
+        DELETE ii
+        FROM itinerary_items ii
+                 JOIN itinerary_days iday ON ii.day_id = iday.id
+        WHERE ii.id = #{itemId}
+          AND iday.post_id = #{postId}
+    </delete>
+
+</mapper>

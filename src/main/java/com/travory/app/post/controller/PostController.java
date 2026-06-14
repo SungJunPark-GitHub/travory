@@ -4,6 +4,7 @@ import com.travory.app.post.dto.PostDto;
 import com.travory.app.post.service.PostService;
 import com.travory.app.companion.service.CompanionService;
 import com.travory.app.favorite.service.FavoriteService;
+import com.travory.app.itinerary.service.ItineraryService;
 import com.travory.app.postlike.service.PostLikeService;
 import com.travory.app.user.dto.UserDto;
 import jakarta.servlet.http.HttpSession;
@@ -23,6 +24,7 @@ public class PostController {
     private final PostLikeService postLikeService;
     private final FavoriteService favoriteService;
     private final CompanionService companionService;
+    private final ItineraryService itineraryService;
 
     @GetMapping
     public String list(@RequestParam(defaultValue = "1") int page,
@@ -112,6 +114,11 @@ public class PostController {
         model.addAttribute(
                 "participantCount",
                 companionService.getParticipantCount(id)
+        );
+
+        model.addAttribute(
+                "itineraryDays",
+                itineraryService.getItinerary(id)
         );
 
         UserDto loginUser =

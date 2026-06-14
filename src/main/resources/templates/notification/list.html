@@ -28,7 +28,7 @@
 
         <div class="d-grid gap-3" th:if="${!#lists.isEmpty(notificationList)}">
             <div th:each="notification : ${notificationList}"
-                 class="surface-card p-4"
+                 class="surface-card travel-card p-4"
                  th:classappend="${notification.isRead == false} ? ' border-primary'">
                 <div class="d-flex flex-column flex-md-row justify-content-between gap-3">
                     <div>

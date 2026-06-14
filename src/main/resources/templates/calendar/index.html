@@ -32,7 +32,7 @@
                             <a th:each="post : ${entry.value}"
                                th:href="@{/posts/{id}(id=${post.postId})}"
                                class="text-decoration-none">
-                                <div class="surface-card p-3 shadow-none">
+                                <div class="surface-card travel-card p-3 shadow-none">
                                     <div class="d-flex justify-content-between gap-2 mb-2">
                                         <strong class="post-title-link" th:text="${post.title}"></strong>
                                         <span th:if="${post.role == 'OWNER'}" class="badge bg-primary">OWNER</span>

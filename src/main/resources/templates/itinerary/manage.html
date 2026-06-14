@@ -31,7 +31,7 @@
 
         <div class="row g-4" th:if="${!#lists.isEmpty(itineraryDays)}">
             <div class="col-lg-6" th:each="day : ${itineraryDays}">
-                <section class="surface-card p-4 h-100">
+                <section class="surface-card timeline-card p-4 h-100">
                     <h2 class="h4 fw-bold mb-3">
                         Day <span th:text="${day.dayNumber}"></span>
                     </h2>
@@ -52,7 +52,7 @@
                                     <a th:href="@{https://www.google.com/maps/search/(api=1,query=${item.placeName})}"
                                        target="_blank"
                                        rel="noopener noreferrer"
-                                       class="btn btn-sm btn-outline-primary mt-2">
+                                       class="btn btn-sm btn-outline-primary map-pill mt-2">
                                         Google Maps
                                     </a>
                                 </div>
@@ -64,7 +64,7 @@
                         </div>
                     </div>
 
-                    <form th:action="@{/posts/{postId}/itinerary/items(postId=${post.id})}" method="post">
+                    <form th:action="@{/posts/{postId}/itinerary/items(postId=${post.id})}" method="post" class="form-section">
                         <input type="hidden" name="dayId" th:value="${day.id}">
 
                         <div class="row g-2">

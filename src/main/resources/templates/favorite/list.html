@@ -7,15 +7,18 @@
 
 <main class="page-shell">
     <div class="container">
-        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-3 mb-4">
-            <div>
-                <span class="badge badge-soft mb-3">Saved trips</span>
-                <h1 class="h2 fw-bold mb-2">내 북마크</h1>
-                <p class="lead-muted mb-0">관심 있는 동행 모집글을 한곳에서 확인하세요.</p>
-            </div>
-            <div class="d-flex gap-2">
-                <a href="/" class="btn btn-outline-secondary">홈</a>
-                <a href="/posts" class="btn btn-primary">동행 모집 목록</a>
+        <div class="surface-card p-4 p-md-5 mb-4">
+            <div class="travel-visual mb-4"></div>
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-3">
+                <div>
+                    <span class="badge badge-soft mb-3">Saved trips</span>
+                    <h1 class="h2 fw-bold mb-2">내 북마크</h1>
+                    <p class="lead-muted mb-0">관심 있는 동행 모집글을 한곳에서 확인하세요.</p>
+                </div>
+                <div class="d-flex gap-2">
+                    <a href="/" class="btn btn-outline-secondary">홈</a>
+                    <a href="/posts" class="btn btn-primary">동행 모집 목록</a>
+                </div>
             </div>
         </div>
 
@@ -25,7 +28,7 @@
             <a href="/posts" class="btn btn-primary">모집글 둘러보기</a>
         </div>
 
-        <div th:if="${!#lists.isEmpty(favoriteList)}" class="surface-card overflow-hidden">
+        <div th:if="${!#lists.isEmpty(favoriteList)}" class="surface-card travel-card overflow-hidden">
             <div class="p-3 border-bottom bg-white">
                 <strong>북마크한 여행 카드</strong>
             </div>

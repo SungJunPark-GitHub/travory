@@ -49,7 +49,7 @@
 
                     <div class="row g-3 mb-4">
                         <div class="col-md-4">
-                            <div class="p-3 bg-light rounded">
+                            <div class="info-tile p-3 h-100">
                                 <strong>여행 기간</strong>
                                 <p class="mb-0 mt-2">
                                     <span th:text="${post.startDate}"></span>
@@ -59,7 +59,7 @@
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="p-3 bg-light rounded">
+                            <div class="info-tile p-3 h-100">
                                 <strong>모집 인원</strong>
                                 <p class="mb-0 mt-2">
                                     <span th:text="${post.maxPeople}"></span>
@@ -68,7 +68,7 @@
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="p-3 bg-light rounded">
+                            <div class="info-tile p-3 h-100">
                                 <strong>예상 비용</strong>
                                 <p class="mb-0 mt-2" th:text="${post.budget}"></p>
                             </div>
@@ -91,7 +91,7 @@
 
                     <div class="row g-3" th:if="${!#lists.isEmpty(itineraryDays)}">
                         <div class="col-md-6" th:each="day : ${itineraryDays}">
-                            <div class="p-3 bg-light rounded h-100">
+                            <div class="timeline-card h-100">
                                 <h3 class="h5 fw-bold">
                                     Day <span th:text="${day.dayNumber}"></span>
                                 </h3>
@@ -106,7 +106,7 @@
                                         <a th:href="@{https://www.google.com/maps/search/(api=1,query=${item.placeName})}"
                                            target="_blank"
                                            rel="noopener noreferrer"
-                                           class="btn btn-sm btn-outline-primary ms-2">
+                                           class="btn btn-sm btn-outline-primary map-pill ms-2">
                                             Google Maps
                                         </a>
                                         <p class="mb-0 text-muted content-box" th:text="${item.memo}"></p>
@@ -137,7 +137,7 @@
                     </div>
 
                     <div class="mt-4">
-                        <div class="card mb-2 border-0 bg-light" th:each="comment : ${commentList}">
+                        <div class="card mb-3 border-0 bg-light" th:each="comment : ${commentList}">
                             <div class="card-body">
                                 <div class="d-flex align-items-center gap-2 mb-2">
                                     <img th:if="${comment.profileImage != null and comment.profileImage != ''}"

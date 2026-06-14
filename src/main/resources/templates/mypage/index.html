@@ -77,9 +77,17 @@
             </div>
         </section>
 
+        <nav class="dashboard-tabs">
+            <a href="/mypage">내 정보</a>
+            <a href="/mypage/chats">내 채팅</a>
+            <a href="/mypage/calendar">여행 캘린더</a>
+            <a href="/favorites">내 북마크</a>
+            <a href="/mypage/profile/edit">프로필 수정</a>
+        </nav>
+
         <div class="row g-4">
             <div class="col-lg-4">
-                <section class="surface-card p-4 h-100">
+                <section class="surface-card hero-card p-4 h-100">
                     <h2 class="h5 fw-bold mb-3">내 정보</h2>
                     <div class="d-flex align-items-center gap-3 mb-4">
                         <img th:if="${loginUser.profileImage != null and loginUser.profileImage != ''}"

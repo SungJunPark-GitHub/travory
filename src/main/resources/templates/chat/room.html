@@ -13,9 +13,9 @@
             <p class="lead-muted mb-0">승인된 동행과 여행 이야기를 나눠보세요.</p>
         </div>
 
-        <div class="surface-card p-4">
+        <div class="surface-card chat-shell p-4">
             <div id="chatMessages" class="d-grid gap-3 mb-4">
-                <div class="p-3 bg-light rounded" th:each="message : ${messageList}">
+                <div class="chat-message" th:each="message : ${messageList}">
                     <div class="d-flex gap-3">
                         <img th:if="${message.profileImage != null and message.profileImage != ''}"
                              th:src="${message.profileImage}"
@@ -30,13 +30,13 @@
                                 <strong th:text="${message.userName}"></strong>
                                 <span class="small text-muted" th:text="${message.createdAt}"></span>
                             </div>
-                            <div class="content-box" th:text="${message.content}"></div>
+                            <div class="chat-bubble content-box" th:text="${message.content}"></div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <form id="chatForm" class="d-flex gap-2">
+            <form id="chatForm" class="chat-input-bar d-flex gap-2">
                 <input type="text"
                        id="messageInput"
                        class="form-control"
@@ -85,7 +85,7 @@
 
     function appendMessage(message) {
         const wrapper = document.createElement('div');
-        wrapper.className = 'p-3 bg-light rounded';
+        wrapper.className = 'chat-message';
 
         const row = document.createElement('div');
         row.className = 'd-flex gap-3';
@@ -106,7 +106,7 @@
         createdAt.textContent = message.createdAt;
 
         const content = document.createElement('div');
-        content.className = 'content-box';
+        content.className = 'chat-bubble content-box';
         content.textContent = message.content;
 
         header.appendChild(name);

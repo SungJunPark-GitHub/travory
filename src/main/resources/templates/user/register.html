@@ -17,7 +17,7 @@
 
       <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
 
-      <form action="/users/register" method="post">
+      <form action="/users/register" method="post" class="form-section">
         <div class="mb-3">
           <label class="form-label">아이디</label>
           <input type="text" class="form-control" name="userId">
